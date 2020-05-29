@@ -2,19 +2,29 @@
 <html lang="zh-CN">
 
 <head>
-    <title>记录表</title>
-    <meta name="keywords" content="jilubiao.com 记录表" />
     <meta charset="utf-8">
+    <title>OldBig @Github</title>
+    <meta name="keywords" content="Oldbig's personal page" />
 </head>
 
 <body>
 <div id="hint" style="display:none">
-<p>正在跳转......</p>
-<a href="https://jilubiao.com/">若未跳转，请点击此处前往</a>
+<p>redirecting......</p>
+<a id="clickHere" href="#">Click here to redirect</a>
 </div>
 <script>
-setTimeout(function(){ document.getElementById('hint').style.display='block'; }, 3000);
-location.replace('https://jilubiao.com/');
+$(function(){
+
+  let url  = 'https://jilubiao.com/';
+  let hash = window.location.hash;
+
+  document.getElementById('clickHere').href = url + hash;
+  
+  location.replace(url + hash);
+  
+  setTimeout(function(){ document.getElementById('hint').style.display='block'; }, 3000);
+  
+});
 </script>
 </body>
 </html>
