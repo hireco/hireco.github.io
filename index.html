@@ -13,7 +13,6 @@
 <a id="clickHere" href="#">Click here to redirect</a>
 </div>
 <script>
-$(function(){
 
   let url  = 'https://jilubiao.com/';
   let hash = window.location.hash;
@@ -23,8 +22,7 @@ $(function(){
   location.replace(url + hash);
   
   setTimeout(function(){ document.getElementById('hint').style.display='block'; }, 3000);
-  
-});
+ 
 </script>
 </body>
 </html>
