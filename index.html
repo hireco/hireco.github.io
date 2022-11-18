@@ -8,14 +8,19 @@
 </head>
 
 <body>
-
+<div id="hint" style="display:none">
+<p>redirecting......</p>
+<a id="clickHere" href="#">您好，网站正在跳转，可点击前往！</a>
+</div>
 <script>
 
-
+  let url  = 'http://47.92.146.12/';
+ 
+  document.getElementById('clickHere').href = url;
   
-  location.replace("http://47.92.146.12/");
+  location.replace(url);
   
-  
+  setTimeout(function(){ document.getElementById('hint').style.display='block'; }, 3000);
  
 </script>
 </body>
