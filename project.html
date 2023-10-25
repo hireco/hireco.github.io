@@ -1,0 +1,20 @@
+<script class="directAccess" src="directAccess.js"></script>
+
+<div class="project hidden"></div>
+
+<script>
+
+$(function(){
+  $.getJSON('data/project.json',{},function(data){
+	  
+	$.each(data, function(i,item){
+	     $('.project').append('<dl><dt><a target="_blank" href="'+item.url+'">'+item.title+'</a></dt><dd>'+item.introduction+'</dd></dl>');
+		  
+		  if(i==data.length-1) $('.project').removeClass('hidden');
+		  
+    });
+	 
+   });
+})
+
+</script>

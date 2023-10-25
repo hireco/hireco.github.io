@@ -1,0 +1,81 @@
+<script class="directAccess" src="directAccess.js"></script>
+
+<div class="blog hidden"></div>
+<div class="categories">
+  <div><span class="glyphicon glyphicon-th-list"></span> All Categories</div>
+  <ul></ul>
+</div>
+<div class="noEntryFound">
+  <span class="glyphicon glyphicon-info-sign"></span>
+  <span>No entry exists with this category<span>
+</div>
+
+<script>
+
+$(function(){
+  
+  let hash = window.location.hash.split('/');
+  
+  if(hash[2]) {
+  
+	  try {
+		 articleListWithCategory(articles,decodeURI(hash[2]));
+	  }
+	  catch(err){
+	  
+		 $.getJSON('data/blog.json',{},function(data){
+	  
+		 articles = data; //global variable definition
+		  
+		 articleListWithCategory(articles,decodeURI(hash[2]));
+		 
+	   });
+	   
+	  }
+   
+   }else {
+      try {
+		 categoryList(articles);
+	  }
+	  catch(err){
+	     $.getJSON('data/blog.json',{},function(data){
+		    articles = data; //global variable definition
+		    categoryList(articles);
+		 });
+	  }
+   }
+   
+   function articleListWithCategory(data,category) {
+   
+      $.each(data, function(i,item){
+			 
+			 if(item.category==category) {
+		
+				$('.blog').append('<div><h4><a href="#blog/article/' + item.id.toLowerCase() + '">'+item.topic+'</a> <small><i>'+item.date+'</i></small></h4><p>'+item.abstract+'</p></div>');
+			 }
+	  });
+	  
+	  if(!$('.blog div').length) $('.noEntryFound').show();
+	  else $('.blog').removeClass('hidden');
+   }
+   
+   function categoryList(data) {
+     
+	  let categories=[];
+      
+	  $.each(data, function(i,item){
+	     categories.push(item.category);
+	  });
+	  
+	  categories = Array.from(new Set(categories)); //es6 method of unique
+	  
+	  for(var category of categories) {
+	      $('.categories ul').append('<li><a href="#blog/category/'+category+'">'+category+'</a></li>');
+	  }
+	  
+	  $('.categories').show();
+	  
+   }
+})
+
+</script>

@@ -1,0 +1,35 @@
+<script class="directAccess" src="directAccess.js"></script>
+
+<div class="blog hidden"></div>
+
+<script>
+
+$(function(){
+
+  try {
+     articleList(articles);
+  }
+  catch(err){
+  
+     $.getJSON('data/blog.json',{},function(data){
+  
+     articles = data; //global variable definition
+	  
+	 articleList(articles);
+	 
+   });
+   
+  }
+  
+  function articleList(data) {
+   
+      $.each(data, function(i,item){
+	     $('.blog').append('<div><h4><a href="#blog/article/' + item.id.toLowerCase() + '">'+item.topic+'</a> <small><i>'+item.date+'</i></small></h4><p>'+item.abstract+'</p></div>');
+		  
+		  if(i==data.length-1) $('.blog').removeClass('hidden');
+		  
+      });
+   }
+})
+
+</script>

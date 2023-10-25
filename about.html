@@ -1,0 +1,38 @@
+<script class="directAccess" src="directAccess.js"></script>
+
+<div class="about">
+
+ <div class="editormd-preview-theme-dark">
+ <div id="aboutView"></div>
+ </div>
+ 
+ <blockquote class="myquote">
+  <p>Beauty is a form of genius - is higher, indeed, than genius, as it needs no explanation. It is of the great facts in the world like sunlight, or springtime, or the reflection in dark water of that silver shell we call the moon.</p>
+  <footer>by <cite title="Source Title">Oscar Wilde (1854~1900)</cite></footer>
+ </blockquote>
+ 
+</div>
+
+<script>
+$(function(){
+   $.ajax({
+			type: 'get',
+			dataType: 'text',
+			url:'data/about.md',
+			success: function(data){
+			  
+				var testView = editormd.markdownToHTML("aboutView", {
+					   markdown   : data,
+					   htmlDecode : 'img'
+				});
+				
+				$('#aboutView a[href^="http"]').each(function() {
+			        $(this).attr('target', '_blank');
+		        });
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+	          window.location.hash='404';
+	        }
+	   });
+});
+</script>

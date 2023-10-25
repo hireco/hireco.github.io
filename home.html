@@ -1,0 +1,175 @@
+<script class="directAccess" src="directAccess.js"></script>
+
+<div class="welcome center-block hidden">
+	<div class="imgWrapper">
+	    <div class="imgPrev hidden"></div>
+	    <img src="" class="img-responsive">
+		<div class="imgNext hidden"></div>
+	</div>
+	<div class="saying hidden">
+		<blockquote>
+		   <p></p>
+		   <footer></footer>
+		</blockquote>
+    </div>
+</div>
+
+<script>
+
+var welcomeImgPath='urls';
+var welcomeImgNum=100; //need only for the dir mode
+var welcomeImgMaxLoad=8;
+var ossPath = config.ossPath;
+var sayingContent,sayingAuthor;
+
+try{
+  var tmp = welcomeImgLoaded.length;   
+}
+catch(err){
+  var welcomeImgLoaded=[];
+  var welcomeTimer=null;
+  var imgNo=0;
+}
+//check whether welcomeImgLoaded and other 2 variables have been defined,
+//if not, then define them.
+
+function hanleAfterLoaded(image) {
+
+     if(image.isLoaded) {
+	    
+		$('.welcome img').attr('src',image.img.src);
+		
+		if(welcomeImgLoaded.length < welcomeImgMaxLoad) 
+			welcomeImgLoaded.push({
+			  'img':image.img.src,
+			  'sayingContent':sayingContent,
+			  'sayingAuthor':sayingAuthor
+			});
+     }
+	 
+	 $('.mainContent').removeClass('loading');
+	 $('.welcome').removeClass('hidden');
+	 
+	 $('.saying p').text(sayingContent);
+	 $('.saying footer').html('by <cite>'+sayingAuthor+'</cite>');
+	 $('.saying').removeClass('hidden');
+	 
+	 if(welcomeImgLoaded.length < welcomeImgMaxLoad)
+	    $('.welcome img').one('click',welcome);
+	 else  {
+	    slideShow();
+	    welcomeTimer = setInterval(slideShow,5000); 
+     }		
+}
+
+function slideShow(){
+   
+    if(!$('.welcome').length) {
+		clearInterval(welcomeTimer);
+		return false;
+	}
+	
+	$('.mainContent').addClass('loading');
+	
+	imgNo = imgNo >= welcomeImgMaxLoad ? 0 : imgNo;
+	imgNo = imgNo < 0 ? welcomeImgMaxLoad-1 : imgNo;
+	
+	//console.log(imgNo);
+	
+	let item = welcomeImgLoaded[imgNo];
+	
+	let $img = $('<img src="'+item.img+'"  class="hidden">');
+		
+	$img.imagesLoaded().progress(function(instance, image){
+	   
+	   $('.welcome img').attr('src',image.img.src);
+	   $('.saying p').text(item.sayingContent);
+	   $('.saying footer').html('by <cite>'+item.sayingAuthor+'</cite>'); 
+
+	   $('.mainContent').removeClass('loading');
+	   $('.welcome,.saying,.imgNext,.imgPrev').removeClass('hidden');
+
+       imgNo++;	   
+	   
+	}); 
+}
+
+function welcome(){
+
+  $('.mainContent').addClass('loading');
+  
+  $.getJSON('data/saying.json',{},function(data,textStatus){
+	  let rnd = randInt(data.length-1,0);
+	  sayingContent = data[rnd].content;
+	  sayingAuthor = data[rnd].person; 
+  });
+  
+  if(welcomeImgPath=='dir') {
+  
+    let num = randInt(welcomeImgNum,1);
+	let $img = $('<img src="'+ossPath + 'images/welcome/'+num+'.jpg'+'"  class="hidden">');
+	
+	$img.imagesLoaded().progress(function(instance, image){
+			   
+	  hanleAfterLoaded(image);
+	  
+	}); 
+	
+  }else if(welcomeImgPath='urls'){
+  
+	 $.ajax({
+	 type: 'get',
+	 dataType: 'json',
+	 url: 'data/welcome.json',
+	 success: function(data){
+		 
+		 welcomeImgNum = data.length;
+		 
+		 let num = randInt(welcomeImgNum-1,0);
+		 
+		 let $img = $('<img src="'+data[num]+'"  class="hidden">');
+			
+			$img.imagesLoaded().progress(function(instance, image){
+			   
+			   hanleAfterLoaded(image);
+			   
+			}); 
+		 
+	  },
+	  //timeout: 1500,
+	  error: function (XMLHttpRequest, textStatus, errorThrown) {
+		   window.location.hash='404';
+	  }//photo json file does not exist
+  });
+		  
+  }
+  
+}
+
+$(function(){
+
+  if(welcomeImgLoaded.length < welcomeImgMaxLoad) {
+     welcome();
+  }
+  else {
+     slideShow();
+     welcomeTimer && clearInterval(welcomeTimer);
+	 welcomeTimer = setInterval(slideShow,5000); 	
+  }
+  
+  $('.imgPrev,.imgNext').click(function(){
+     
+	  clearInterval(welcomeTimer);
+     
+      if($(this).attr('class')=='imgPrev') {
+	     imgNo=imgNo-2;
+	     slideShow();
+	  }else {
+	     slideShow();
+	  }
+	  
+	  welcomeTimer = setInterval(slideShow,5000); 
+  });
+})
+
+</script>

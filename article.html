@@ -1,0 +1,107 @@
+<script class="directAccess" src="directAccess.js"></script>
+<div class="article hidden">
+	<div class="articleHeader">
+		<span class="glyphicon glyphicon-calendar"></span>
+		<span class="myDate"></span><span class="glyphicon glyphicon-th-list"></span>
+		<span class="myCategory"></span>
+	</div>
+	<div class="articleBody editormd-preview-theme-dark">
+	   <div id="articleContent"></div>
+	</div>
+	<div class="articleFooter">
+	  <p>
+	    <span class="glyphicon glyphicon-tags"></span>
+		<span class="myTags"></span>
+	  </p>
+	  <p class="prevNext"></p>
+	</div>
+	<div id="vcomments"></div>
+</div>
+
+<script>
+
+$(function(){
+
+  let hash = window.location.hash.split('/');
+  
+  if(hash[2]) {
+   
+	   $.ajax({
+			type: 'get',
+			dataType: 'text',
+			url:'data/articles/' + hash[2] + '.md',
+			success: function(data){
+			  
+			  var testView = editormd.markdownToHTML("articleContent", {
+				   markdown   : data,
+				   htmlDecode : 'div',
+				   tex        : true
+			  });
+			  
+			  $('#articleContent a[href^="http"]').each(function() {
+			     $(this).attr('target', '_blank');
+		      });
+
+			  try{
+			       setArticleInfo(articles,hash[2]);
+				}
+			  catch(err){
+			     $.getJSON('data/blog.json',{},function(data){
+				    articles = data;  //define as a global variable without 'var'
+				    setArticleInfo(articles,hash[2]);
+				 });
+			  }
+			  
+			  new Valine({
+					el:'#vcomments',
+					appId: 'G6WH8YA3tY7pwKP8SSnwJzpL-MdYXbMMI',
+					appKey: '5Xsu4TuKpBPS7VX0qEOo0CEG',
+					path: hash[2],
+					serverURLs: 'https://G6WH8YA3.api.lncldglobal.com',
+					avatar: "monsterid",
+                    placeholder: "给我的文章加点评论吧~",
+                    recordIP: true
+			  });
+			  
+			  $('.article').removeClass('hidden');
+			  
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+	          window.location.hash='404';
+	        }
+	   });
+  
+  } 
+  else window.location.hash = '404';
+  
+  function setArticleInfo(articles,articleId) {
+      
+	  let prevId,nextId;
+	  
+	  $.each(articles,function(i,item){
+		 if(item.id==articleId) {
+			
+			$('.myDate').text(articles[i].date);
+			$('.myCategory').html('<a href="#blog/category/'+item.category+'">'+articles[i].category+'</a>');
+			
+			for(var tag of item.tags) {
+			   $('.myTags').append('<a href="#blog/tag/'+tag+'" class="myTag">'+tag+'</a>');
+			}
+			
+			if(i>0){
+			   prevId = articles[i-1].id.toLowerCase();
+			   $('.prevNext').append('<p>Prev: <a href="#blog/article/' + prevId + '">' + articles[i-1].topic + '</a></p>');
+			}
+			if(i<articles.length-1) {
+			   nextId = articles[i+1].id.toLowerCase();
+			   $('.prevNext').append('<p>Next: <a href="#blog/article/' + nextId + '">' + articles[i+1].topic + '</a></p>');
+			}
+			
+			return false;
+		 }
+	  }); 
+  }
+  
+})
+
+</script>

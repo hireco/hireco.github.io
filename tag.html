@@ -1,0 +1,81 @@
+<script class="directAccess" src="directAccess.js"></script>
+
+<div class="blog hidden"></div>
+<div class="tags">
+  <div><span class="glyphicon glyphicon-tags"></span> All Tags</div>
+  <ul></ul>
+</div>
+<div class="noEntryFound">
+  <span class="glyphicon glyphicon-info-sign"></span>
+  <span>No entry exists with this tag<span>
+</div>
+
+<script>
+
+$(function(){
+  
+  let hash = window.location.hash.split('/');
+  
+  if(hash[2]) {
+  
+	  try {
+		 articleListWithTag(articles,decodeURI(hash[2]));
+	  }
+	  catch(err){
+	  
+		 $.getJSON('data/blog.json',{},function(data){
+	  
+		 articles = data; //global variable definition
+		  
+		 articleListWithTag(articles,decodeURI(hash[2]));
+		 
+	   });
+	   
+	  }
+   
+   }else {
+	 try {
+		 tagList(articles);
+	  }
+	  catch(err){
+		 $.getJSON('data/blog.json',{},function(data){
+			articles = data; //global variable definition
+			tagList(articles);
+		 });
+	  }
+   }
+   
+   function articleListWithTag(data,tag) {
+   
+      $.each(data, function(i,item){
+			 
+			 if($.inArray(tag,item.tags)>=0) {
+		
+				$('.blog').append('<div><h4><a href="#blog/article/' + item.id.toLowerCase() + '">'+item.topic+'</a> <small><i>'+item.date+'</i></small></h4><p>'+item.abstract+'</p></div>');
+			 }
+	  });
+	  
+	  if(!$('.blog div').length) $('.noEntryFound').show();
+	  else $('.blog').removeClass('hidden');
+   }
+   
+   function tagList(data) {
+     
+	  let tags=[];
+      
+	  $.each(data, function(i,item){
+	     tags = tags.concat(item.tags);
+	  });
+	  
+	  tags = Array.from(new Set(tags)); //es6 method of unique
+	  
+	  for(var tag of tags) {
+	      $('.tags ul').append('<li><a href="#blog/tag/'+tag+'"><span class="label label-primary">'+tag+'</span></a></li>');
+	  }
+	  
+	  $('.tags').show();
+	  
+   }
+})
+
+</script>

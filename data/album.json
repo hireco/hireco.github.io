@@ -1,0 +1,62 @@
+[
+ { "topic"  :   "Scientific photos series 0(Astronomy)",
+   "urls"   :   "sci_0",
+   "cover"  :   "https://i.loli.net/2020/05/29/9lQnEMcrCtgbL3i.jpg"
+ },
+ { "topic"  :   "Scientific photos series 1(Physics)",
+   "urls"   :   "sci_1",
+   "cover"  :   "https://i.loli.net/2020/05/23/W62anvLUKfHIho4.gif"
+ },
+ { "topic"  :   "Scientific photos series 2(Chemistry)",
+   "urls"   :   "sci_2",
+   "cover"  :   "https://i.loli.net/2020/05/24/PdDwCMtOjr5Nq48.gif"
+ },
+ { "topic"  :   "Scientific photos series 3",
+   "urls"   :   "sci_3",
+   "cover"  :   "https://i.loli.net/2020/05/24/zvMbfxq1JSHi7wY.gif"
+ },
+ { "topic"  :   "Scientific photos series 4",
+   "urls"   :   "sci_4",
+   "cover"  :   "https://i.loli.net/2020/05/24/QgtPjH74fLzsKrV.gif"
+ },
+ { "topic"  :   "Scientific photos series 5",
+   "urls"   :   "sci_5",
+   "cover"  :   "https://i.loli.net/2020/05/24/OuyzVToLK6dQ2ag.gif"
+ },
+ { "topic"  :   "Scientific photos series 6",
+   "urls"   :   "sci_6",
+   "cover"  :   "https://i.loli.net/2020/05/24/dyhOURPIquL5Yor.gif"
+ },
+  { "topic"  :  "Interesting miscellaneous photos series 1",
+   "urls"   :   "imp_1",
+   "cover"  :   "https://i.loli.net/2020/05/25/1GnOVjWPBh9iUp8.gif"
+ },
+ { "topic"  :   "Interesting miscellaneous photos series 2",
+   "urls"   :   "imp_2",
+   "cover"  :   "https://i.loli.net/2020/05/25/r2nzjy9kJBwLKig.gif"
+ },
+ { "topic"  :   "OCD cure series 1",
+   "urls"   :   "ocd_1",
+   "cover"  :   "https://i.loli.net/2020/05/25/jLSaWvBAGwsiFZH.gif"
+ },
+ { "topic"  :   "Machine series 1",
+   "urls"   :   "mac_1",
+   "cover"  :   "https://i.loli.net/2020/05/28/m8aJZyocesvER9b.gif"
+ },
+ { "topic"  :   "Space series 1",
+   "urls"   :   "spa_1",
+   "cover"  :   "https://i.loli.net/2020/05/28/NEdcbROFoJ1GP4I.gif"
+ },
+ { "topic"  :   "School badges",
+   "urls"   :   "sb",
+   "cover"  :   "https://i.loli.net/2020/06/08/ABVwjz3hPbxRd4k.gif"
+ },
+ { "topic"  :   "visual illusion series 1",
+   "urls"   :   "vi_1",
+   "cover"  :   "https://i.loli.net/2020/07/03/Y7X38GvakOJtExH.jpg"
+ },
+ { "topic"  :   "visual illusion series 2",
+   "urls"   :   "vi_2",
+   "cover"  :   "https://i.loli.net/2020/07/03/YAaNT9WbBeUowjQ.gif"
+ }
+]

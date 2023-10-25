@@ -1,0 +1,18 @@
+[
+ { "title"       :   "schoolGate",
+   "introduction":   "A strong and flexiable content management system (CMS) of website for institutions, schools and departments of universities, and all other academic orgnizations.", 
+   "url"         :   "https://github.com/hioldbig/schoolGate"
+ },
+ { "title"       :   "Top10",
+   "introduction":   "Based on PHP laravel framework and html5, a web app for top 10 topics of BBS on campus everyday.", 
+   "url"         :   "https://github.com/hioldbig/top10"
+ },
+ { "title"       :   "Jilubiao",
+   "introduction":   "A history theme website, which is designed to remind people not to forget history and remember their mission.", 
+   "url"         :   "https://jilubiao.com/"
+ },
+ { "title"       :   "staticPageMaker",
+   "introduction":   "A python program to automatically generate and maintain the static personal homepage for GitHub pages, which is convenient to update synchronously.", 
+   "url"         :   "https://github.com/hioldbig/staticPageMaker"
+ }
+]

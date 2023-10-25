@@ -1,0 +1,45 @@
+<script class="directAccess" src="directAccess.js"></script>
+
+<div class="blog hidden"></div>
+<div class="noEntryFound">
+  <span class="glyphicon glyphicon-info-sign"></span>
+  <span>No archived entry exists<span>
+</div>
+
+<script>
+
+$(function(){
+
+  try {
+     articleList(archived);
+  }
+  catch(err){
+  
+    $.ajax({
+		type: 'get',
+		dataType: 'json',
+		url:'data/archived.json',
+		success: function(data){
+		  archived = data; //global variable definition
+		  articleList(archived);
+		},
+		error: function (XMLHttpRequest, textStatus, errorThrown) {
+		   $('.noEntryFound').show();
+		}//album json file does not exist
+   
+    });
+   
+  }
+  
+  function articleList(data) {
+   
+      $.each(data, function(i,item){
+	     $('.blog').append('<div><h4><a href="#blog/article/' + item.id.toLowerCase() + '">'+item.topic+'</a> <small><i>'+item.date+'</i></small></h4><p>'+item.abstract+'</p></div>');
+      });
+	  
+	  if(!$('.blog div').length) $('.noEntryFound').show();
+	  else $('.blog').removeClass('hidden');
+   }
+})
+
+</script>

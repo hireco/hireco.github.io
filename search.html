@@ -1,0 +1,49 @@
+<script class="directAccess" src="directAccess.js"></script>
+
+<div class="blog hidden"></div>
+<div class="noEntryFound">
+  <span class="glyphicon glyphicon-info-sign"></span>
+  <span>No entry found with this keyword<span>
+</div>
+
+<script>
+
+$(function(){
+  
+  let hash = window.location.hash.split('/');
+  
+  if(hash[2]) {
+  
+	  try {
+		 articleListWithKeyword(articles,decodeURI(hash[2]));
+	  }
+	  catch(err){
+	  
+		 $.getJSON('data/blog.json',{},function(data){
+	  
+		 articles = data; //global variable definition
+		  
+		 articleListWithKeyword(articles,decodeURI(hash[2]));
+		 
+	   });
+	   
+	  }
+   
+   }else window.location.hash='404'; 
+   
+   function articleListWithKeyword(data,keyword) {
+   
+      $.each(data, function(i,item){
+			 
+			 if(item.abstract.indexOf(keyword)>=0) {
+		
+				$('.blog').append('<div><h4><a href="#blog/article/' + item.id.toLowerCase() + '">'+item.topic+'</a> <small><i>'+item.date+'</i></small></h4><p>'+item.abstract+'</p></div>');
+			 } 
+	  });
+	  
+	  if(!$('.blog div').length) $('.noEntryFound').show();
+	  else $('.blog').removeClass('hidden');
+   }
+})
+
+</script>

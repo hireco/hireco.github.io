@@ -2,26 +2,208 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="utf-8">
-    <title>OldBig @Github</title>
-    <meta name="keywords" content="Oldbig's personal page" />
+	<title>OldBig's personal website</title>
+	<meta name="keywords" content="OldBig" />
+	<meta name="description" content="OldBig's personal website" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+
+	<link rel="alternate icon" class="js-site-favicon" type="image/png" href="images/skin/favicon.png">
+	
+	<!-- Bootstrap -->
+	<link href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+	<!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+	<!--[if lt IE 9]>
+	<script src="https://unpkg.com/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+	<script src="https://unpkg.com/respond.js@1.4.2/dest/respond.min.js"></script>
+	<![endif]-->
+	
+	<link href="http://editor.md.ipandao.com/css/editormd.preview.css" rel="stylesheet">
+	<link href="style.css?t=1234" rel="stylesheet">
+	<script src="config.js"></script>
+	
 </head>
 
 <body>
-<div id="hint" style="display:none">
-<p>redirecting......</p>
-<a id="clickHere" href="#">您好，网站正在跳转，可点击前往！</a>
-</div>
+	<div class="container-fluid" id="header">
+		<div class="navbar-header">
+		  <button type="button" class="navbar-toggle collapsed">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+		  <span class="navbar-brand"> OldBig</span>
+		</div>
+		<div class="page-header hidden-xs">
+			<h1 class="pull-left">
+			  <a href="#home">
+				<span class="logo">OldBig</span>
+				<sup><span class="badge">α</span></sup>
+				<small>Beautiful & Interesting</small>
+			  </a>
+			</h1>
+			<div class="pull-right">
+			  <div class="searchForm">
+			     <input type="text" class="form-control hidden" placeholder="keywords">
+			     <span class="glyphicon glyphicon-search"></span>
+			  </div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<p class="player"></p>
+	</div>
+	<div class="container-fluid" id="body">
+	  <div class="row">
+		 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+		   <div class="sidePanel">
+			 <div class="mainNav hidden-xs" id="navigation">
+			  <ul class="nav nav-pills nav-stacked">
+				  <li role="presentation"><a href="#home">Home</a></li>
+				  <li role="presentation"><a href="#blog">Blog</a></li>
+				  <li role="presentation"><a href="#category">Category</a></li>
+				  <li role="presentation"><a href="#tag">Tag</a></li>
+				  <li role="presentation"><a href="#archive">Archive</a></li>
+				  <li role="presentation"><a href="#project">Project</a></li>
+				  <li role="presentation"><a href="#album">Album</a></li>
+				  <li role="presentation"><a href="#about">About</a></li>
+			  </ul>
+			 </div>
+			 <div class="infoBar hidden-xs">
+			   <p class="stats">
+				  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+				  <span class="glyphicon glyphicon-stats"></span>
+				  <span id="busuanzi_container_site_uv">Visitors <span id="busuanzi_value_site_uv"></span></span>
+			   </p>
+			   <p class="github links">
+				  <span class="myIcon"></span>
+				  <span>Find me @<a target="_blank" href="https://github.com/hioldbig">github.com</a></span>
+			   </p>
+			   <p class="powered links">
+				  <span class="myIcon"></span>
+				  <span>Powered by <a target="_blank" href="https://qiniu.com/">qiniu.com</a></span>
+			   </p>
+			   <p class="beian links">
+				  <span class="glyphicon glyphicon-certificate"></span>
+				  <span><a href="http://beian.miit.gov.cn" target="blank">粤ICP备19132506号</a></span>
+			   </p>
+			 </div>
+			</div>
+		 </div>
+		 <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+		   <div class="mainPanel">
+			   <div class="mainContent">
+			  
+			   </div>
+		   </div>
+		 </div>
+	  </div>
+	</div>
+	  
+	<!-- jQuery -->
+	<script src="https://unpkg.com/jquery@3.2.1/dist/jquery.min.js"></script>
+	<!--Bootstrap -->
+	<script src="https://unpkg.com/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    
+	<!--image loading and masonry -->
+	<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+	<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+	
+	<!--all the scripts needed for converting markdown to html-->
+	<script src="http://editor.md.ipandao.com/lib/marked.min.js"></script>
+	<script src="http://editor.md.ipandao.com/lib/prettify.min.js"></script>
+	<script src="http://editor.md.ipandao.com/lib/raphael.min.js"></script>
+	<script src="http://editor.md.ipandao.com/lib/underscore.min.js"></script>
+	<script src="http://editor.md.ipandao.com/lib/sequence-diagram.min.js"></script>
+	<script src="http://editor.md.ipandao.com/lib/flowchart.min.js"></script>
+	<script src="http://editor.md.ipandao.com/lib/jquery.flowchart.min.js"></script>
+	<script src="http://editor.md.ipandao.com/editormd.js"></script>
+	
+	<!-- scripts for Valine.js -->
+	<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+	
 <script>
 
-  let url  = 'http://47.92.146.12/mobile';
- 
-  document.getElementById('clickHere').href = url;
-  
-  location.replace(url);
-  
-  setTimeout(function(){ document.getElementById('hint').style.display='block'; }, 3000);
- 
+function randInt(m,n) {
+  return Math.floor(Math.random()*(m-n+1)+n);
+}
+
+$(function(){
+
+   function fixMenu() {
+      $('body').append('<div class="mask"></div>');
+	  
+	  $('.mainNav').removeClass('hidden-xs');
+	  $('.sidePanel').addClass('fixed');
+	  
+	  $('.mask').one('click',freeMenu);
+   }
+   
+   function freeMenu() {
+      $('.mainNav').addClass('hidden-xs');
+	  $('.sidePanel').removeClass('fixed');
+	   
+      $('.mask').unbind('click');
+	  $('.mask').remove();
+   }
+
+   function loadPage() {
+   
+	   $('.mainContent').addClass('loading').empty();
+	   
+	   let hash = window.location.hash;
+	   hash = hash?hash:'home';
+	   
+	   hash = hash.replace('#','').split('/');
+	   
+	   $('.nav li').removeClass('active');
+	   $('.nav a[href="#'+hash[0]+'"]').parent().addClass('active');
+	   
+	   freeMenu();
+	   
+	   let page = hash.length==1?hash[0]:hash[1];
+	   
+	   let pages = ['404','home','project','blog','article','album','photo','about','tag','category','archive','search'];
+	   
+	   if($.inArray( page, pages ) <= 0)  page = '404';
+	   
+	   $.get( page + '.html',function(data){
+	      let pageHtml = $(data).not('.directAccess');
+		  $('.mainContent').html(pageHtml).removeClass('loading');
+	   });
+   }
+   
+   loadPage();
+   
+   $('.player').load('audio.html');
+   
+   window.onhashchange = function () {
+	   loadPage();
+   }
+   
+   $('.navbar-toggle').click(function(){
+	  
+	  $('.mask').length ? freeMenu() : fixMenu();
+	      
+   });
+   
+   $('.glyphicon-search').click(function(){
+	  $('.form-control,.glyphicon-search').toggleClass('hidden');
+   });
+   
+   $('.form-control').bind('blur keydown',function(event){
+     if(event.type=='blur' || event.which==13) {
+		 if(!$(this).val()) 
+		   $('.form-control,.glyphicon-search').toggleClass('hidden');
+		 else 
+		   window.location.hash='#blog/search/'+$(this).val();
+	 }
+   });
+});
 </script>
+  
 </body>
 </html>

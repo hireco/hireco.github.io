@@ -1,0 +1,237 @@
+<script class="directAccess" src="directAccess.js"></script>
+
+<p class="return"><a href="#album">Back</a></p>
+<div class="photo"></div>
+<p class="hint text-center"><span class="hintText">Loading...<span></p>
+<p class="text-center"><span title="Click to load more" class="glyphicon glyphicon-plus more hidden"></span></p>
+<div class="hidden">
+ <p class="text-center failed">
+  <span class="glyphicon glyphicon-warning-sign"> Load failed</span>
+ </p>
+</div>
+
+<script>
+
+$(function(){
+  
+  var itemWidth  = 200;
+  var itemSpacing = 10;
+  var imgPerPage = 5;
+  var countPerPage = 0;
+  var imgCount=0;
+  var imgNum=0;
+  var imgLoaded=0;
+  
+  let itemPerRow = Math.floor($('.photo').innerWidth()/(itemWidth+itemSpacing));
+  itemWidth = itemPerRow<2 ? $('.photo').innerWidth() : itemWidth;
+  
+  imgPerPage = itemPerRow<2 ? 1 : itemPerRow;
+  
+  var ossPath = config.ossPath;
+  
+  var $grid = $('.photo').masonry({
+		itemSelector: '.thumbnail',
+		columnWidth: itemWidth,
+		gutter: itemSpacing,
+		isAnimated: true,
+		horizontalOrder: true,
+		fitWidth: true
+  });
+  
+  $grid.masonry(); //initial masonry
+  
+  function checkAfterLoaded(image) {
+  
+     //console.log(image.img);
+	 
+	 if(!image.isLoaded) { 
+	     $(image.img).parent().empty().append($('.failed').eq(0).clone());
+	 }
+								
+	 $grid.masonry().masonry('layout');
+	 
+	 $(image.img).prev('.loading').remove(); 
+	
+	 imgLoaded++;
+     
+     if(imgLoaded==imgCount)  {
+								
+		if(imgCount<imgNum){
+			  
+			  if( $(document).height()==$(window).height()) {
+				 $('.more').removeClass('hidden');
+				 $('.hintText').fadeOut('fast');
+			  }
+			  else 
+				 $('.hintText').text('Scroll to load more').stop(true,true).fadeIn('fast').fadeOut('slow');
+		}
+		else {
+		    $('.more').addClass('hidden');
+			$('.hintText').text('Loaded').stop(true,true).fadeIn('fast').fadeOut('slow');
+		}
+			
+	}
+	else $('.hintText').text('Loading...').stop(true,true).fadeIn('fast');
+  }
+    
+  function doMasonry() {
+  
+     let hash = window.location.hash.split('/');
+	 
+     if(hash[2]=='urls') {
+		 $.ajax({
+			 type: 'get',
+			 dataType: 'json',
+			 url: 'data/photos/'+hash[3]+'.json',
+			 success: function(data){
+				 
+				 imgNum = data.length;
+				 
+				 $.each(data, function(i,item){
+					
+					if($('img[src="'+item+'"]').length ) return true;
+					
+					if(countPerPage > imgPerPage-1 ) return false;
+					
+					var $img = $('<div class="thumbnail" style="width:'+itemWidth+'px;"><div class="loading"></div><img src="'+item+'"  class="img-responsive"></div>');
+					
+					$grid.masonry().append( $img ).masonry( 'appended', $img );
+					
+					$img.imagesLoaded().progress(function(instance, image){
+					   
+					   checkAfterLoaded(image);
+					   
+					});
+					
+					countPerPage++;
+					imgCount++;
+				 }); 
+			  },
+			  //timeout: 1500,
+			  error: function (XMLHttpRequest, textStatus, errorThrown) {
+				   window.location.hash='404';
+			  }//photo json file does not exist
+		  });
+	  }
+	  else if(hash[2]=='dir'){
+	  
+	      $.ajax({
+			 type: 'get',
+			 dataType: 'json',
+			 url: 'data/album.json',
+			 success: function(data) {
+			     
+			     $.each(data, function(i,item){
+				     
+					 if(item.dir==hash[3]) {
+					    
+						imgNum = item.total;
+						
+						for(var i=0;i< item.total;i++) {
+			 
+							 var imgUrl = ossPath + 'images/album/' + item.dir + '/' + i +'.' + item.format;
+							 var $img = $('<div class="thumbnail" style="width:'+itemWidth+'px;"><div class="loading"></div><img src="'+imgUrl+'" class="img-responsive"></div>');
+							 
+							 if($('img[src="'+imgUrl+'"]').length ) continue;
+								
+							 if(countPerPage > imgPerPage-1 ) break;
+							 
+							 $grid.masonry().append( $img ).masonry( 'appended', $img );
+							 $img.imagesLoaded().progress(function(instance, image){
+							    
+								checkAfterLoaded(image);
+								
+							 });
+							 
+							 countPerPage++;
+							 imgCount++;
+		                }
+						
+					    return false;
+					 }
+				 });
+				 
+				 if(!imgNum) window.location.hash='404'; //dir does not exist
+			 },
+			 //timeout: 1500,
+			 error: function (XMLHttpRequest, textStatus, errorThrown) {
+				   window.location.hash='404';
+			 }//album json file does not exist
+			 
+		  });
+      }
+	  
+	  else window.location.hash='404';  //invalid album type other than dir and urls
+	  
+	
+  }
+  
+  doMasonry();
+  
+  function checkBeforeLoading() {
+     if(imgCount<imgNum) {
+	   
+	  if(imgLoaded==imgCount) 
+		 doMasonry();
+	  else 
+		 $('.hintText').text('Waiting to load').stop(true,true).fadeIn('fast').fadeOut('slow');
+	 }
+	 else 
+	   $('.hintText').text('No more photos').stop(true,true).fadeIn('fast').fadeOut('slow');
+  }
+  
+  $(window).scroll(function (){
+  
+        if(!$('.photo img').length || $('.big-show').length) return false; 
+		//prevent scrolling when it is not the photo page self and
+		//when variable imgNum has not been assigned with the iamge numbers and
+		//when some image is shown in full screen.
+		
+		var scrollTop = $(this).scrollTop();
+		var scrollHeight = $(document).height();
+		var windowHeight = $(this).height();
+		
+		countPerPage=0;
+		
+		if(scrollTop + windowHeight == scrollHeight){
+		   
+		   checkBeforeLoading();
+		}
+		
+   });
+   
+  $('.more').click(function(){
+  
+     countPerPage=0;
+	 
+	 checkBeforeLoading();
+  });
+
+   
+  $('.photo').on('click','img',function(){
+   
+        const Ypos = $(document).scrollTop();
+		const Xpos = $(document).scrollLeft();
+		const imgUrl = $(this).attr('src');
+
+		$('#body').hide(0,function () {
+		       $('.big-show').remove();
+       
+			   $('body').append('<div class="big-show" style="height:' + window.screen.height + 'px; background-image:url('+ imgUrl +')"></div>');
+			   
+			   scrollTo(0,0);
+			   
+			   $('.big-show').click(function () {
+				    $.when($('.big-show').remove()).then( function (){
+                        $('#body').show(0,function () {
+                            scrollTo(Xpos,Ypos);
+                        });
+                    });
+			   });
+		});
+       
+   });
+
+})
+
+</script>

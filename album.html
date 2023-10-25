@@ -1,0 +1,71 @@
+<script class="directAccess" src="directAccess.js"></script>
+
+<div class="album"></div>
+<div class="hidden">
+ <p class="text-center failed">
+  <span class="glyphicon glyphicon-warning-sign"> Load failed</span>
+ </p>
+</div>
+
+<script>
+
+$(function(){
+
+  var itemWidth  = 200;
+  var itemSpacing = 10;
+  
+  let itemPerRow = Math.floor($('.album').innerWidth()/(itemWidth+itemSpacing));
+  itemWidth = itemPerRow<2 ? $('.album').innerWidth() : itemWidth;
+  
+  var ossPath = config.ossPath;
+  
+  var $grid = $('.album').masonry({
+		itemSelector: '.thumbnail',
+		columnWidth: itemWidth,
+		gutter: itemSpacing,
+		isAnimated: true,
+		horizontalOrder: true,
+		fitWidth: true
+  });
+  
+  $grid.masonry(); //initial masonry
+  
+  $.ajax({
+    type: 'get',
+	dataType: 'json',
+	url:'data/album.json',
+	success: function(data){
+	   $.each(data, function(i,item){
+	
+			if(item.urls) {
+				$elem = $('<a href="#album/photo/urls/'+item.urls+'" class="thumbnail" style="width:'+itemWidth+'px;"><img class="img-responsive" src="'+item.cover+'" title="'+item.topic+'"><p class="title">'+item.topic+'</p></a>');
+			}
+			else {
+				$elem = $('<a href="#album/photo/dir/'+item.dir+'" class="thumbnail" style="width:'+itemWidth+'px;"><img class="img-responsible" src="'+ossPath+'images/album/'+item.dir+'/0'+'.'+item.format+'"  title="'+item.topic+'"><p class="title">'+item.topic+'</p></a>');
+			}
+			
+			$grid.append( $elem ).masonry( 'appended', $elem );
+			
+			$elem.imagesLoaded().progress(function(instance, image) {
+				 
+				 if(!image.isLoaded) {	 
+	                 $(image.img).parent().empty().append($('.failed').eq(0).clone()).attr('href',window.location.hash);
+	             }
+				 
+				 $grid.masonry().masonry('layout');
+				 
+				 //console.log(image.img);
+			});
+		  
+       });
+    },
+	//timeout: 1500,
+	error: function (XMLHttpRequest, textStatus, errorThrown) {
+	   window.location.hash='404';
+	}//album json file does not exist
+   
+   });
+   
+})
+
+</script>

@@ -1,0 +1,12 @@
+<script class="directAccess" src="directAccess.js"></script>
+
+<audio id="myBGM" autoplay="autoplay" loop="loop" controls="controls" preload="auto" src=""></audio>
+
+<script>
+$(function(){
+   $.getJSON('data/music.json',{},function(data,textStatus){
+	  let rnd = randInt(data.length-1,0);
+	  $('#myBGM').attr('src',data[rnd].src);
+   });
+});
+</script>
