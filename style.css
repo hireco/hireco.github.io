@@ -167,6 +167,7 @@ a:hover {
 
 .weixin .myIcon:before {
 	background-image: url(images/skin/weixin.png);
+	filter: brightness(50%);
 }
 
 .mainContent {
