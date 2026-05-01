@@ -165,6 +165,10 @@ a:hover {
 	background-image: url(images/skin/qiniu.png);
 }
 
+.weixin .myIcon:before {
+	background-image: url(images/skin/weixin.png);
+}
+
 .mainContent {
 	margin: 0 auto;
 	width:100%;
