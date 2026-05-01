@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件下载中心</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #f6f8fa;
+        }
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin-top: 0;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: .3em;
+        }
+        .breadcrumb {
+            background: #f1f8ff;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-family: monospace;
+            color: #0366d6;
+        }
+        .file-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .file-item {
+            padding: 10px;
+            border-bottom: 1px solid #eaecef;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        .file-item:hover {
+            background-color: #f8f9fa;
+        }
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        .file-item a {
+            color: #0366d6;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            width: 100%;
+        }
+        .file-item a:hover {
+            text-decoration: underline;
+        }
+        .icon {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        .file-size {
+            margin-left: auto;
+            color: #6a737d;
+            font-size: 0.9em;
+        }
+        .back-btn {
+            font-weight: bold;
+            color: #24292e !important;
+        }
+        .error { color: #cb2431; padding: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📥 文件下载中心</h1>
+    <div id="breadcrumb" class="breadcrumb">/</div>
+    <ul id="file-list" class="file-list">
+        <li>正在加载文件列表...</li>
+    </ul>
+</div>
+
+<script>
+// ================= 配置区域 =================
+const GITHUB_USERNAME = 'hireco'; 
+const GITHUB_REPO = 'hireco.github.io';     
+// 关键点：这里必须是从仓库根目录开始的完整路径
+const ROOT_FOLDER = 'download/files'; 
+// ============================================
+
+const listElement = document.getElementById('file-list');
+const breadcrumbElement = document.getElementById('breadcrumb');
+
+function formatBytes(bytes, decimals = 2) {
+    if (!+bytes) return '0 Bytes';
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+}
+
+async function loadPath(currentPath) {
+    listElement.innerHTML = '<li>正在加载...</li>';
+    
+    // 显示路径时，把前缀 "download/files" 隐藏掉，让用户看起来更简洁
+    const friendlyPath = currentPath.replace(ROOT_FOLDER, '') || '/';
+    breadcrumbElement.textContent = `当前位置: ${friendlyPath}`;
+
+    const apiUrl = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${currentPath}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        
+        listElement.innerHTML = '';
+
+        // 返回上一级逻辑：只有当前路径比 ROOT_FOLDER 长时，才允许返回
+        if (currentPath.length > ROOT_FOLDER.length) {
+            const li = document.createElement('li');
+            li.className = 'file-item';
+            const pathParts = currentPath.split('/');
+            pathParts.pop();
+            const parentPath = pathParts.join('/');
+            li.innerHTML = `<a class="back-btn" onclick="loadPath('${parentPath}')"><span class="icon">🔙</span> 返回上一级</a>`;
+            listElement.appendChild(li);
+        }
+
+        if (!Array.isArray(data) || data.length === 0) {
+            listElement.innerHTML += '<li>该目录下暂无内容</li>';
+            return;
+        }
+
+        data.sort((a, b) => (a.type === b.type ? a.name.localeCompare(b.name) : a.type === 'dir' ? -1 : 1));
+
+        data.forEach(item => {
+            // 过滤掉 index.html 自身，防止它出现在文件列表里
+            if (item.name === 'index.html') return;
+
+            const li = document.createElement('li');
+            li.className = 'file-item';
+            const a = document.createElement('a');
+
+            if (item.type === 'dir') {
+                a.innerHTML = `<span class="icon">📁</span> ${item.name}`;
+                a.onclick = () => loadPath(item.path);
+                li.appendChild(a);
+            } else {
+                a.innerHTML = `<span class="icon">📄</span> ${item.name}`;
+                a.href = item.download_url;
+                a.target = '_blank';
+                const sizeSpan = document.createElement('span');
+                sizeSpan.className = 'file-size';
+                sizeSpan.textContent = formatBytes(item.size);
+                li.appendChild(a);
+                li.appendChild(sizeSpan);
+            }
+            listElement.appendChild(li);
+        });
+
+    } catch (error) {
+        listElement.innerHTML = `<li class="error">加载失败: ${error.message}</li>`;
+    }
+}
+
+loadPath(ROOT_FOLDER);
+
+</script>
+
+</body>
+</html>
