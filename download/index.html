@@ -22,6 +22,13 @@
         #login-box button { padding: 10px 20px; font-size: 16px; background: #2ea44f; color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px; }
         #login-box button:hover { background: #2c974b; }
         #error-msg { color: #cb2431; margin-top: 10px; display: none; }
+        .pwd-hint { margin-top: 28px; padding-top: 20px; border-top: 1px solid #eaecef; text-align: center; }
+        .pwd-hint-img-wrap { display: inline-block; }
+        .pwd-hint-img-wrap img { width: 100%; height: auto; border-radius: 6px; display: block; }
+        .pwd-hint-welcome { margin: 8px 0 0; font-size: 0.85rem; color: #6a737d; }
+        .pwd-hint-title { margin: 18px 0 6px; font-size: 1.5em; font-weight: 600; color: #24292e; }
+        .pwd-hint-steps { margin: 0; font-size: 0.88rem; color: #6a737d; line-height: 1.9; }
+        .pwd-hint-steps span { display: inline-block; background: #f1f8ff; color: #0366d6; padding: 2px 8px; border-radius: 3px; margin: 0 2px; font-weight: 500; }
 
         #main-content { display: none; }
     </style>
@@ -34,6 +41,14 @@
     <input type="password" id="pwd-input" placeholder="输入密码并按回车">
     <button onclick="checkPassword()">进入</button>
     <div id="error-msg">密码错误，请重试</div>
+    <div class="pwd-hint">
+        <div class="pwd-hint-img-wrap">
+            <img src="images/erweima.jpg" alt="微信公众号二维码">
+            <p class="pwd-hint-welcome">欢迎关注我</p>
+        </div>
+        <p class="pwd-hint-title">获取密码步骤</p>
+        <p class="pwd-hint-steps"><span>1</span> 扫码关注 &nbsp;&nbsp;<span>2</span> 发送"下载密码"</p>
+    </div>
 </div>
 
 <!-- 主内容区 (初始隐藏) -->
@@ -51,7 +66,7 @@
     // 如需更换密码，请使用以下命令生成新的哈希值：
     //   node -e "console.log(require('crypto').createHash('sha256').update('你的新密码', 'utf8').digest('hex'))"
     // 然后将下方 PAGE_PASSWORD_HASH 替换为新的哈希值
-    const PAGE_PASSWORD_HASH = 'e61b26836f2013c722ce1724f462ed58843b0eb9cb1700ca0d83eef77cc7bf56';
+    const PAGE_PASSWORD_HASH = 'dfe160d52554fd1cf9e924a60c73664f0e433dcac4b4369d6de9a8e8ca6ceb54';
 
     // ================= GitHub 配置 =================
     const GITHUB_USERNAME = 'hireco';
