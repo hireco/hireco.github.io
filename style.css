@@ -488,16 +488,6 @@ a:hover {
   }
 }
  
-/*---------project---------------*/
-dl dt {
-  margin:0 auto 6px auto;
-}
-dl dt a{
-  font-size:larger;
-  color:#337ab7;
-  text-decoration:underline;
-}
-
  /*----------------album---------------------*/
  .album, .photo {
     margin:0 auto;
