@@ -3,7 +3,7 @@
 <div>
 
  <div class="editormd-preview-theme-dark">
- <div id="contentView"></div>
+ <div class="contentView" id="about"></div>
  </div>
  
  <blockquote class="myquote">
@@ -21,12 +21,12 @@ $(function(){
 			url:'data/about.md',
 			success: function(data){
 			  
-				var testView = editormd.markdownToHTML("contentView", {
+				var testView = editormd.markdownToHTML("about", {
 					   markdown   : data,
 					   htmlDecode : 'img'
 				});
 				
-				$('#contentView a[href^="http"]').each(function() {
+				$('#about a[href^="http"]').each(function() {
 			        $(this).attr('target', '_blank');
 		        });
 			},

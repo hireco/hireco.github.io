@@ -581,11 +581,11 @@ a:hover {
  
  /*---------------about and contact---------------------*/
  
- #contentView img{
+ .contentView img{
 	opacity:0.7 
  }
  
- #contentView img:hover {
+ .contentView img:hover {
 	opacity: 1;
 	filter: alpha(opacity=100); 
 	 
