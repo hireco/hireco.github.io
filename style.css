@@ -579,13 +579,13 @@ a:hover {
 	padding:3px;
  }
  
- /*---------------about---------------------*/
+ /*---------------about and contact---------------------*/
  
- #aboutView img{
+ #contentView img{
 	opacity:0.7 
  }
  
- #aboutView img:hover {
+ #contentView img:hover {
 	opacity: 1;
 	filter: alpha(opacity=100); 
 	 

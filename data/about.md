@@ -1,7 +1,2 @@
 #### Profile
 Life is vast and unpredictable, always ready to record those interesting and beautiful things in life.
-
-#### Contact me
-![Do not send me spam](images/email.png)
-
-![Scan it and follow me](images/WXQRCode.png)
