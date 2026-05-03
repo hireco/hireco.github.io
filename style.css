@@ -589,6 +589,18 @@ dl dt a{
 	padding:3px;
  }
  
+ /*---------------about---------------------*/
+ 
+ #aboutView img{
+	opacity:0.7 
+ }
+ 
+ #aboutView img:hover {
+	opacity: 1;
+	filter: alpha(opacity=100); 
+	 
+ }
+ 
  /*---------------404-----------------------*/
  .notFound {
     background-image: url(images/skin/404.jpg);
