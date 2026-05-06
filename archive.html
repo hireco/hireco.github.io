@@ -1,8 +1,11 @@
 <script class="directAccess" src="directAccess.js"></script>
 
-<div class="blog hidden"></div>
-<div class="categories">
+<div class="page-title">
   <div><span class="glyphicon glyphicon-folder-open"></span> 归档</div>
+</div>
+
+<div class="blog hidden"></div>
+<div class="years">
   <ul></ul>
 </div>
 <div class="noEntryFound">
@@ -32,16 +35,16 @@ $(function(){
         // 降序排列，最新年份在前
         data.sort().reverse();
         for(var year of data) {
-          $('.categories ul').append('<li><a href="#year/'+year+'"><span class="glyphicon glyphicon-folder-close"></span> '+year+' 年</a></li>');
+          $('.years ul').append('<li><a href="#year/'+year+'"><span class="glyphicon glyphicon-folder-close"></span> '+year+' 年</a></li>');
         }
-        $('.categories').show();
+        $('.years').show();
       } else {
-        $('.noEntryFound span').text('暂无归档日志');
-        $('.noEntryFound').show();
+        $('.years ul').hide();  // 隐藏年份列表
+        $('.noEntryFound').show();   // 显示提示
       }
     },
     error: function() {
-      $('.noEntryFound span').text('暂无归档日志');
+      $('.years ul').hide();
       $('.noEntryFound').show();
     }
   });

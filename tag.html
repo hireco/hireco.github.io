@@ -1,16 +1,16 @@
-<link rel="stylesheet" href="style.css">
 <script class="directAccess" src="directAccess.js"></script>
 
-<div class="tags-container">
-  <h1 class="tags-title"><i class="ri-price-tag-3-line"></i> All Tags</h1>
-  <div class="tag-cloud" id="tag-cloud"></div>
+<div class="page-title">
+  <div><span class="glyphicon glyphicon-tags"></span> All Tags</div>
 </div>
 
-<div class="blog hidden" id="blog-list"></div>
-
-<div class="noEntryFound" id="no-entry">
-  <i class="ri-file-search-line"></i>
-  <p>No entry exists with this tag</p>
+<div class="blog hidden"></div>
+<div class="categories">
+  <ul class="tag-cloud" id="tag-cloud"></ul>
+</div>
+<div class="noEntryFound">
+  <span class="glyphicon glyphicon-info-sign"></span>
+  <span>No entry exists with this tag<span>
 </div>
 
 <script>
@@ -51,21 +51,23 @@ $(function(){
   
   function articleListWithTag(data, tag) {
     $('.tags-container').hide();
+    $('.blog').hide();
     $('.noEntryFound').show();
     
     $.each(data, function(i, item) {
       if($.inArray(tag, item.tags) >= 0) {
-        $('#blog-list').append('<div><h4><a href="#blog/article/' + item.id.toLowerCase() + '">'+item.topic+'</a> <small><i>'+item.date+'</i></small></h4><p>'+item.abstract+'</p></div>');
+        $('.blog').append('<div><h4><a href="#blog/article/' + item.id.toLowerCase() + '">'+item.topic+'</a> <small><i>'+item.date+'</i></small></h4><p>'+item.abstract+'</p></div>');
       }
     });
     
-    if($('#blog-list div').length) {
-      $('#blog-list').removeClass('hidden').show();
-      $('#no-entry').hide();
+    if($('.blog div').length) {
+      $('.blog').removeClass('hidden').show();
+      $('.noEntryFound').hide();
     }
   }
   
   function tagList(data) {
+    $('.categories').show();
     let tags = {};
     
     // 统计每个标签的文章数量
