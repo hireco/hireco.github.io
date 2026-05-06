@@ -14,9 +14,7 @@
   <p>Beauty is a form of genius - is higher, indeed, than genius, as it needs no explanation. It is of the great facts in the world like sunlight, or springtime, or the reflection in dark water of that silver shell we call the moon.</p>
   <footer>by <cite title="Source Title">Oscar Wilde (1854~1900)</cite></footer>
  </blockquote>
-
- <div id="waline-container"></div>
-
+ 
 </div>
 
 <script>
@@ -31,15 +29,10 @@ $(function(){
 					   markdown   : data,
 					   htmlDecode : 'img'
 				});
-					
+				
 				$('#about a[href^="http"]').each(function() {
 			        $(this).attr('target', '_blank');
 		        });
-		        
-		        // 初始化 Waline 评论
-		        if (typeof initWaline === 'function') {
-		        	initWaline('about');
-		        }
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
 	          window.location.hash='404';

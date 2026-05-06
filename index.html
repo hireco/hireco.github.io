@@ -24,7 +24,6 @@
 	
 	<link href="/plugins/editor.md-master/css/editormd.preview.css" rel="stylesheet">
 	<link href="style.css?t=1234" rel="stylesheet">
-	<link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css">
 	<script src="config.js"></script>
 	
 </head>
@@ -213,30 +212,6 @@ $(function(){
 	 }
    });
 });
-});
-
-// ================= Waline 评论初始化 =================
-let walineInstance = null;
-
-function initWaline(articleId) {
-  // 如果已存在实例，先销毁
-  if (walineInstance) {
-    walineInstance.destroy();
-    walineInstance = null;
-  }
-  
-  walineInstance = Waline.init({
-    el: '#waline-container',
-    serverURL: 'https://comment.19051915.xyz',
-    path: articleId,
-    placeholder: '给我的文章加点评论吧~',
-    avatar: 'monsterid',
-    recordIP: true,
-    requiredMeta: ['nick', 'mail'],
-    pageSize: 10,
-    lang: 'zh-CN'
-  });
-}
 </script>
   
 </body>

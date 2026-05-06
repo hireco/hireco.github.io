@@ -15,7 +15,7 @@
 	  </p>
 	  <p class="prevNext"></p>
 	</div>
-	<div id="waline-container"></div>
+	<div id="vcomments"></div>
 </div>
 
 <script>
@@ -84,8 +84,16 @@ $(function(){
           });
         }
         
-        // 初始化 Waline 评论
-        initWaline(articleId);
+        new Valine({
+          el:'#vcomments',
+          appId: 'G6WH8YA3tY7pwKP8SSnwJzpL-MdYXbMMI',
+          appKey: '5Xsu4TuKpBPS7VX0qEOo0CEG',
+          path: articleId,
+          serverURLs: 'https://G6WH8YA3.api.lncldglobal.com',
+          avatar: "monsterid",
+          placeholder: '给我的文章加点评论吧~',
+          recordIP: true
+        });
         
         $('.article').removeClass('hidden');
         

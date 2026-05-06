@@ -170,18 +170,14 @@ a:hover {
 	filter: brightness(50%);
 }
 
-.mainPanel{
-   background: rgba(255, 255, 255, 0.03);
-   border: 1px solid rgba(255, 255, 255, 0.08);
-   border-radius: 12px;
-   padding: 24px;
-   margin-bottom: 20px;
-   transition: all 0.3s ease;
-}
-
 .mainContent {
 	margin: 0 auto;
 	width:100%;
+	padding: 20px;
+	background: rgba(255, 255, 255, 0.03);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 12px;
+	transition: all 0.3s ease;
  }
 @media screen and (min-width: 1200px) {
     .mainContent {
@@ -201,11 +197,19 @@ a:hover {
 	    padding-top:50px;
 	}
 }
-
 .mainContent.loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 200px;
+}
+.mainContent.loading::after {
+	content: '';
 	background-image: url(images/skin/preload.gif);
-	background-position:center;
-	background-repeat:no-repeat;
+	background-position: center;
+	background-repeat: no-repeat;
+	width: 32px;
+	height: 32px;
 }
 
 .page-title .glyphicon {
@@ -1041,26 +1045,6 @@ blockquote.myquote footer {
   opacity: 0.5;
 }
 
-/* Waline 评论区域样式 */
-#waline-container {
-  margin-top: 40px;
-  padding-top: 30px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-#waline-container .wl-panel {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 20px;
-}
-
-#waline-container .wl-header {
-  background: rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255,  255, 255, 0.1);
-  border-radius: 12px 12px 0 0;
-}
-
 /* 响应式 */
 @media (max-width: 768px) {
   .tags-title {
@@ -1077,8 +1061,5 @@ blockquote.myquote footer {
   .tag-item.size-lg {
     font-size: 16px;
     padding: 12px 24px;
-  }
-  #waline-container {
-    padding: 20px 10px;
   }
 }
