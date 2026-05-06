@@ -1041,6 +1041,26 @@ blockquote.myquote footer {
   opacity: 0.5;
 }
 
+/* Waline 评论区域样式 */
+#waline-container {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#waline-container .wl-panel {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+#waline-container .wl-header {
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255,  255, 255, 0.1);
+  border-radius: 12px 12px 0 0;
+}
+
 /* 响应式 */
 @media (max-width: 768px) {
   .tags-title {
@@ -1057,5 +1077,8 @@ blockquote.myquote footer {
   .tag-item.size-lg {
     font-size: 16px;
     padding: 12px 24px;
+  }
+  #waline-container {
+    padding: 20px 10px;
   }
 }

@@ -14,7 +14,9 @@
   <p>See, in all our searching, the only thing we've found that makes the emptiness bearable, is each other</p>
   <footer>by <cite title="Source Title">Carl Sagan (1934~1996)</cite></footer>
  </blockquote>
- 
+
+ <div id="waline-container"></div>
+
 </div>
 
 <script>
@@ -29,10 +31,15 @@ $(function(){
 					   markdown   : data,
 					   htmlDecode : 'img'
 				});
-				
+					
 				$('#contact a[href^="http"]').each(function() {
 			        $(this).attr('target', '_blank');
 		        });
+		        
+		        // 初始化 Waline 评论
+		        if (typeof initWaline === 'function') {
+		        	initWaline('contact');
+		        }
 			},
 			error: function (XMLHttpRequest, textStatus, errorThrown) {
 	          window.location.hash='404';
