@@ -170,14 +170,17 @@ a:hover {
 	filter: brightness(50%);
 }
 
-.mainContent {
-	margin: 0 auto;
-	width:100%;
+.mainPanel {
 	padding: 20px;
 	background: rgba(255, 255, 255, 0.03);
 	border: 1px solid rgba(255, 255, 255, 0.08);
 	border-radius: 12px;
 	transition: all 0.3s ease;
+}
+
+.mainContent {
+	margin: 0 auto;
+	width:100%;
  }
 @media screen and (min-width: 1200px) {
     .mainContent {
@@ -197,19 +200,11 @@ a:hover {
 	    padding-top:50px;
 	}
 }
+
 .mainContent.loading {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 200px;
-}
-.mainContent.loading::after {
-	content: '';
 	background-image: url(images/skin/preload.gif);
-	background-position: center;
-	background-repeat: no-repeat;
-	width: 32px;
-	height: 32px;
+	background-position:center;
+	background-repeat:no-repeat;
 }
 
 .page-title .glyphicon {
