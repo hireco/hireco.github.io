@@ -1,44 +1,205 @@
 [
- { "person" :   "Johann Wolfgang von Goethe, 1749—1832", 
-   "content":   "You will never have what you like until you learn to like what you have ."
- },
- { "person" :   "Linus Benedict Torvalds, 1969~", 
-   "content":   "Talk is cheap, Show me the code."
- },
- { "person" :   "Albert Einstein, 1879~1955",
-   "content":   "All social life is essentially practical."
- },
- { "person" :   "Johann Wolfgang von Goethe, 1749—1832",
-   "content":   "Genius is formed in quiet, character in the strenm of life."
- },
- { "person" :   "George Gordon Byron, 1788~1824",
-   "content":   "Optimistic person eternal youth."
- },
- { "person" :   "William Liebknecht, 1826~1900",
-   "content":   "To spark, often burst in hard stone."
- },
- { "person" :   "Robert Louis Stevenson, 1850~1894",
-   "content":   "Whether it is the old man, or the young, it is the last time for us to sail."
- },
- { "person" :   "Napoléon Bonaparte, 1799~1804",
-   "content":   "Is the true wisdom fortitude ambition"
- },
- { "person" :   "William Shakespeare, 1564~1616",
-   "content":   "Nutrition books in the world. There is no book in life, there is no sunlight; wisdom without books, as if the birds do not have wings."
- },
- { "person" :   "Cicero, 106 BC~43 BC",
-   "content":   "The best advice for young people is to make them modest and prudent, honor their parents, and love their relatives and friends."
- },
- { "person" :   "Bernard Shaw, 1856~1950",
-   "content":   "The body is always in the end. In addition to thinking, there is no beautiful and interesting things to stay, because thought is life."
- },
- { "person" :   "Cervantes Saavedra, 1547~1616",
-   "content":   "Time is like surging rapids, it also did not want to."
- },
- { "person" :   "Honoré·de Balzac, 1799~1850",
-   "content":   "Continuous labor is the life of the iron law, also the art of iron."
- },
- { "person" :   "Mao Zedong, 1893~1976",
-   "content":   "Only people's social practice is the standard of the truth that people know about the outside world. The standard of truth can only be social practice."
- }
+    {
+        "id": "q1700000001",
+        "category": "情感",
+        "quote": "人生就像一盒巧克力，你永远不知道下一颗是什么味道。",
+        "author": "阿甘正传",
+        "lifespan": ""
+    },
+    {
+        "id": "q1700000002",
+        "category": "情感",
+        "quote": "曾经有一份真挚的爱情摆在我面前，我没有珍惜，等到失去的时候才后悔莫及。",
+        "author": "大话西游",
+        "lifespan": ""
+    },
+    {
+        "id": "q1700000003",
+        "category": "科学",
+        "quote": "给我一个支点，我可以撬起整个地球。",
+        "author": "阿基米德",
+        "lifespan": "公元前287年-公元前212年"
+    },
+    {
+        "id": "q1700000004",
+        "category": "科学",
+        "quote": "天才是1%的灵感加上99%的汗水。",
+        "author": "爱迪生",
+        "lifespan": "1847年-1931年"
+    },
+    {
+        "id": "q1700000005",
+        "category": "社会",
+        "quote": "天下兴亡，匹夫有责。",
+        "author": "顾炎武",
+        "lifespan": "1613年-1682年"
+    },
+    {
+        "id": "q1700000006",
+        "category": "社会",
+        "quote": "为中华之崛起而读书。",
+        "author": "周恩来",
+        "lifespan": "1898年-1976年"
+    },
+    {
+        "id": "q1700000007",
+        "category": "励志",
+        "quote": "有志者，事竟成，破釜沉舟，百二秦关终属楚。",
+        "author": "蒲松龄",
+        "lifespan": "1640年-1715年"
+    },
+    {
+        "id": "q1700000008",
+        "category": "励志",
+        "quote": "锲而不舍，金石可镂。",
+        "author": "荀子",
+        "lifespan": "约公元前313年-公元前238年"
+    },
+    {
+        "id": "q1700000009",
+        "category": "哲学",
+        "quote": "知之为知之，不知为不知，是知也。",
+        "author": "孔子",
+        "lifespan": "公元前551年-公元前479年"
+    },
+    {
+        "id": "q1700000010",
+        "category": "哲学",
+        "quote": "我思故我在。",
+        "author": "笛卡尔",
+        "lifespan": "1596年-1650年"
+    },
+    {
+        "id": "q1700000011",
+        "category": "文学",
+        "quote": "书籍是人类进步的阶梯。",
+        "author": "高尔基",
+        "lifespan": "1868年-1936年"
+    },
+    {
+        "id": "q1700000012",
+        "category": "文学",
+        "quote": "读万卷书，行万里路。",
+        "author": "董其昌",
+        "lifespan": "1555年-1636年"
+    },
+    {
+        "id": "q1700000013",
+        "category": "艺术",
+        "quote": "生活中不是缺少美，而是缺少发现美的眼睛。",
+        "author": "罗丹",
+        "lifespan": "1840年-1917年"
+    },
+    {
+        "id": "q1700000014",
+        "category": "艺术",
+        "quote": "音乐是比一切智慧、一切哲学更高的启示。",
+        "author": "贝多芬",
+        "lifespan": "1770年-1827年"
+    },
+    {
+        "id": "q1700000015",
+        "category": "人生",
+        "quote": "路漫漫其修远兮，吾将上下而求索。",
+        "author": "屈原",
+        "lifespan": "公元前340年-公元前278年"
+    },
+    {
+        "id": "q1700000016",
+        "category": "人生",
+        "quote": "You will never have what you like until you learn to like what you have.",
+        "author": "Johann Wolfgang von Goethe",
+        "lifespan": "1749-1832"
+    },
+    {
+        "id": "q1700000017",
+        "category": "励志",
+        "quote": "Talk is cheap, Show me the code.",
+        "author": "Linus Benedict Torvalds",
+        "lifespan": "1969-"
+    },
+    {
+        "id": "q1700000018",
+        "category": "社会",
+        "quote": "All social life is essentially practical.",
+        "author": "Albert Einstein",
+        "lifespan": "1879-1955"
+    },
+    {
+        "id": "q1700000019",
+        "category": "人生",
+        "quote": "Genius is formed in quiet, character in the stream of life.",
+        "author": "Johann Wolfgang von Goethe",
+        "lifespan": "1749-1832"
+    },
+    {
+        "id": "q1700000020",
+        "category": "情感",
+        "quote": "Optimistic person eternal youth.",
+        "author": "George Gordon Byron",
+        "lifespan": "1788-1824"
+    },
+    {
+        "id": "q1700000021",
+        "category": "励志",
+        "quote": "To spark, often burst in hard stone.",
+        "author": "William Liebknecht",
+        "lifespan": "1826-1900"
+    },
+    {
+        "id": "q1700000022",
+        "category": "人生",
+        "quote": "Whether it is the old man, or the young, it is the last time for us to sail.",
+        "author": "Robert Louis Stevenson",
+        "lifespan": "1850-1894"
+    },
+    {
+        "id": "q1700000023",
+        "category": "哲学",
+        "quote": "Is the true wisdom fortitude ambition.",
+        "author": "Napoleon Bonaparte",
+        "lifespan": "1769-1821"
+    },
+    {
+        "id": "q1700000024",
+        "category": "文学",
+        "quote": "Nutrition books in the world. There is no book in life, there is no sunlight; wisdom without books, as if the birds do not have wings.",
+        "author": "William Shakespeare",
+        "lifespan": "1564-1616"
+    },
+    {
+        "id": "q1700000025",
+        "category": "励志",
+        "quote": "The best advice for young people is to make them modest and prudent, honor their parents, and love their relatives and friends.",
+        "author": "Cicero",
+        "lifespan": "公元前106年-公元前43年"
+    },
+    {
+        "id": "q1700000026",
+        "category": "哲学",
+        "quote": "The body is always in the end. In addition to thinking, there is no beautiful and interesting things to stay, because thought is life.",
+        "author": "Bernard Shaw",
+        "lifespan": "1856-1950"
+    },
+    {
+        "id": "q1700000027",
+        "category": "人生",
+        "quote": "Time is like surging rapids, it also did not want to.",
+        "author": "Cervantes Saavedra",
+        "lifespan": "1547-1616"
+    },
+    {
+        "id": "q1700000028",
+        "category": "励志",
+        "quote": "Continuous labor is the life of the iron law, also the art of iron.",
+        "author": "Honore de Balzac",
+        "lifespan": "1799-1850"
+    },
+    {
+        "id": "q1700000029",
+        "category": "社会",
+        "quote": "Only people's social practice is the standard of the truth that people know about the outside world. The standard of truth can only be social practice.",
+        "author": "Mao Zedong",
+        "lifespan": "1893-1976"
+    }
 ]

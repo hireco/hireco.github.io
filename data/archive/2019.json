@@ -1,0 +1,13 @@
+[
+    {
+        "topic": "Good News",
+        "abstract": "Somebody said it was a good news, but I'd like to wait and see the ultimate result.",
+        "date": "2019-01-27",
+        "id": "good-news",
+        "tags": [
+            "心情"
+        ],
+        "category": "生活",
+        "visible": true
+    }
+]
