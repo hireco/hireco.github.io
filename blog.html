@@ -1,35 +1,122 @@
 <script class="directAccess" src="directAccess.js"></script>
 
-<div class="blog hidden"></div>
+<div class="blog hidden">
+  <div class="blog-list"></div>
+  <div class="blog-pagination">
+    <button class="page-btn prev" onclick="changePage(-1)">上一页</button>
+    <span class="page-info">第 <span class="current-page">1</span> / <span class="total-pages">1</span> 页</span>
+    <button class="page-btn next" onclick="changePage(1)">下一页</button>
+  </div>
+</div>
 
 <script>
+var articles = [];
+var currentPage = 1;
+var itemsPerPage = 8;
 
 $(function(){
+  
+  // 从URL获取页码
+  function getPageFromUrl() {
+    var hash = window.location.hash;
+    var match = hash.match(/^#blog\/(\d+)$/);
+    if (match) {
+      return parseInt(match[1], 10) || 1;
+    }
+    return 1;
+  }
 
-  try {
-     articleList(articles);
+  // 更新URL
+  function updateUrl(page) {
+    var newHash = page > 1 ? '#blog/' + page : '#blog';
+    history.replaceState(null, '', newHash);
   }
-  catch(err){
-  
-     $.getJSON('data/blog.json',{},function(data){
-  
-     articles = data; //global variable definition
-	  
-	 articleList(articles);
-	 
-   });
-   
+
+  // 渲染函数
+  function renderPage() {
+    var $blogList = $('.blog-list');
+    if (!$blogList.length) return;
+    
+    $blogList.empty();
+    
+    // 计算总页数
+    var totalPages = Math.ceil(articles.length / itemsPerPage);
+    if (totalPages < 1) totalPages = 1;
+    
+    // 确保当前页在有效范围内
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+    
+    // 更新页码显示
+    $('.current-page').text(currentPage);
+    $('.total-pages').text(totalPages);
+    
+    // 计算当前页的起始和结束索引
+    var startIndex = (currentPage - 1) * itemsPerPage;
+    var endIndex = Math.min(startIndex + itemsPerPage, articles.length);
+    
+    // 渲染当前页的数据
+    for (var i = startIndex; i < endIndex; i++) {
+      var item = articles[i];
+      $blogList.append('<div><h4><a href="#blog/article/' + item.id.toLowerCase() + '">'+item.topic+'</a> <small><i>'+item.date+'</i></small></h4><p>'+item.abstract+'</p></div>');
+    }
+    
+    // 更新按钮状态
+    $('.page-btn.prev').prop('disabled', currentPage <= 1);
+    $('.page-btn.next').prop('disabled', currentPage >= totalPages);
+    
+    // 显示列表
+    if (articles.length > 0) $('.blog').removeClass('hidden');
   }
-  
-  function articleList(data) {
-   
-      $.each(data, function(i,item){
-	     $('.blog').append('<div><h4><a href="#blog/article/' + item.id.toLowerCase() + '">'+item.topic+'</a> <small><i>'+item.date+'</i></small></h4><p>'+item.abstract+'</p></div>');
-		  
-		  if(i==data.length-1) $('.blog').removeClass('hidden');
-		  
+
+  // 翻页函数
+  window.changePage = function(direction) {
+    var totalPages = Math.ceil(articles.length / itemsPerPage);
+    var newPage = currentPage + direction;
+    
+    if (newPage >= 1 && newPage <= totalPages) {
+      currentPage = newPage;
+      updateUrl(currentPage);
+      renderPage();
+    }
+  };
+
+  // 监听hash变化
+  window.addEventListener('hashchange', function() {
+    var page = getPageFromUrl();
+    if (page !== currentPage) {
+      currentPage = page;
+      renderPage();
+    }
+  });
+
+  // 键盘翻页
+  $(document).off('keydown.blog').on('keydown.blog', function(e) {
+    if ($('.blog').is(':visible') && !$('input, textarea').is(':focus')) {
+      if (e.key === 'ArrowLeft') changePage(-1);
+      if (e.key === 'ArrowRight') changePage(1);
+    }
+  });
+
+  // 初始化页码
+  currentPage = getPageFromUrl();
+
+  // 加载数据
+  $.ajax({
+    type: 'get',
+    dataType: 'json',
+    url: 'data/blog.json',
+    success: function(data) {
+      // 过滤掉 visible === false 的文章
+      articles = (data || []).filter(function(item) {
+        return item.visible !== false;
       });
-   }
-})
-
+      renderPage();
+    },
+    error: function() {
+      articles = [];
+      renderPage();
+    }
+  });
+});
 </script>

@@ -1,0 +1,192 @@
+<script class="directAccess" src="directAccess.js"></script>
+
+<div class="blog hidden">
+  <div class="blog-list"></div>
+  <div class="blog-pagination">
+    <button class="page-btn prev" onclick="changePage(-1)">上一页</button>
+    <span class="page-info">第 <span class="current-page">1</span> / <span class="total-pages">1</span> 页</span>
+    <button class="page-btn next" onclick="changePage(1)">下一页</button>
+  </div>
+</div>
+<div class="noEntryFound">
+  <span class="glyphicon glyphicon-info-sign"></span>
+  <span>该年份暂无归档日志</span>
+</div>
+
+<style>
+.blog-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 0;
+}
+.page-btn {
+  padding: 6px 14px;
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #666;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+.page-btn:hover {
+  background: #4CAF50;
+  border-color: #4CAF50;
+  color: #fff;
+}
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.page-btn:disabled:hover {
+  background: #f8f8f8;
+  border-color: #ddd;
+  color: #666;
+}
+.page-info {
+  color: #888;
+  font-size: 13px;
+  padding: 0 8px;
+}
+</style>
+
+<script>
+
+var articles = [];
+var currentYear = null;
+var currentPage = 1;
+var itemsPerPage = 8;
+
+$(function(){
+  
+  // 从URL获取年份和页码
+  function getYearAndPage() {
+    var hash = window.location.hash.split('/');
+    var year = null;
+    var page = 1;
+    
+    if (hash[1]) {
+      year = decodeURI(hash[1]);
+    }
+    if (hash[2]) {
+      page = parseInt(hash[2], 10) || 1;
+    }
+    
+    return { year: year, page: page };
+  }
+  
+  // 更新URL
+  function updateUrl(year, page) {
+    if (page > 1) {
+      window.location.hash = '#year/' + year + '/' + page;
+    } else {
+      window.location.hash = '#year/' + year;
+    }
+  }
+  
+  // 渲染函数
+  function renderPage() {
+    var $blogList = $('.blog-list');
+    if (!$blogList.length) return;
+    
+    $blogList.empty();
+    
+    // 计算总页数
+    var totalPages = Math.ceil(articles.length / itemsPerPage);
+    if (totalPages < 1) totalPages = 1;
+    
+    // 确保当前页在有效范围内
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+    
+    // 更新页码显示
+    $('.current-page').text(currentPage);
+    $('.total-pages').text(totalPages);
+    
+    // 计算当前页的起始和结束索引
+    var startIndex = (currentPage - 1) * itemsPerPage;
+    var endIndex = Math.min(startIndex + itemsPerPage, articles.length);
+    
+    // 渲染当前页的数据
+    for (var i = startIndex; i < endIndex; i++) {
+      var item = articles[i];
+      $blogList.append('<div><h4><a href="#view/' + item.id.toLowerCase() + '">'+item.topic+'</a> <small><i>'+item.date+'</i></small></h4><p>'+item.abstract+'</p></div>');
+    }
+    
+    // 更新按钮状态
+    $('.page-btn.prev').prop('disabled', currentPage <= 1);
+    $('.page-btn.next').prop('disabled', currentPage >= totalPages);
+    
+    // 显示列表
+    if (articles.length > 0) $('.blog').removeClass('hidden');
+  }
+  
+  // 加载归档文章
+  function loadArchiveArticles(year) {
+    $.ajax({
+      type: 'get',
+      dataType: 'json',
+      url: 'data/archive/' + year + '.json',
+      success: function(data) {
+        articles = data || [];
+        renderPage();
+      },
+      error: function() {
+        articles = [];
+        renderPage();
+      }
+    });
+  }
+  
+  // 翻页函数
+  window.changePage = function(direction) {
+    var totalPages = Math.ceil(articles.length / itemsPerPage);
+    var newPage = currentPage + direction;
+    
+    if (newPage >= 1 && newPage <= totalPages) {
+      currentPage = newPage;
+      updateUrl(currentYear, currentPage);
+      renderPage();
+    }
+  };
+  
+  // 监听hash变化
+  window.addEventListener('hashchange', function() {
+    var params = getYearAndPage();
+    if (params.year !== currentYear) {
+      currentYear = params.year;
+      currentPage = params.page;
+      if (currentYear) {
+        loadArchiveArticles(currentYear);
+      }
+    } else if (params.page !== currentPage) {
+      currentPage = params.page;
+      renderPage();
+    }
+  });
+  
+  // 键盘翻页
+  $(document).off('keydown.year').on('keydown.year', function(e) {
+    if ($('.blog').is(':visible') && !$('input, textarea').is(':focus')) {
+      if (e.key === 'ArrowLeft') changePage(-1);
+      if (e.key === 'ArrowRight') changePage(1);
+    }
+  });
+  
+  // 初始化
+  var params = getYearAndPage();
+  currentYear = params.year;
+  currentPage = params.page;
+  
+  if (currentYear) {
+    loadArchiveArticles(currentYear);
+  } else {
+    $('.noEntryFound span').text('无效的年份');
+    $('.noEntryFound').show();
+  }
+  
+});
+
+</script>

@@ -157,9 +157,25 @@ $(function(){
 	   
 	   freeMenu();
 	   
-	   let page = hash.length==1?hash[0]:hash[1];
+	   let page = hash[0];
 	   
-	   let pages = ['404','home','project','blog','article','album','photo','about','tag','category','archive','search','contact'];
+	   // 特殊处理：blog页码（如 #blog/2）加载blog.html
+	   if (hash.length > 1 && hash[0] === 'blog' && /^\d+$/.test(hash[1])) {
+		   page = 'blog';
+	   }
+	   // 特殊处理：archive年份（如 #year/2016）加载year.html
+	   else if (hash.length > 1 && hash[0] === 'year' && /^\d{4}$/.test(hash[1])) {
+		   page = 'year';
+	   }
+	   // view视图（如 #view/id）加载view.html
+	   else if (hash.length > 1 && hash[0] === 'view') {
+		   page = 'view';
+	   }
+	   else if (hash.length > 1) {
+		   page = hash[1];
+	   }
+	   
+	   let pages = ['404','home','project','blog','article','album','photo','about','tag','category','archive','search','contact','year','view'];
 	   
 	   if($.inArray( page, pages ) <= 0)  page = '404';
 	   

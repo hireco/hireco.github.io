@@ -26,53 +26,83 @@ $(function(){
   
   if(hash[2]) {
    
-	   $.ajax({
-			type: 'get',
-			dataType: 'text',
-			url:'data/articles/' + hash[2] + '.md',
-			success: function(data){
-			  
-			  var testView = editormd.markdownToHTML("articleContent", {
-				   markdown   : data,
-				   htmlDecode : 'div',
-				   tex        : true
-			  });
-			  
-			  $('#articleContent a[href^="http"]').each(function() {
-			     $(this).attr('target', '_blank');
-		      });
-
-			  try{
-			       setArticleInfo(articles,hash[2]);
-				}
-			  catch(err){
-			     $.getJSON('data/blog.json',{},function(data){
-				    articles = data;  //define as a global variable without 'var'
-				    setArticleInfo(articles,hash[2]);
-				 });
-			  }
-			  
-			  new Valine({
-					el:'#vcomments',
-					appId: 'G6WH8YA3tY7pwKP8SSnwJzpL-MdYXbMMI',
-					appKey: '5Xsu4TuKpBPS7VX0qEOo0CEG',
-					path: hash[2],
-					serverURLs: 'https://G6WH8YA3.api.lncldglobal.com',
-					avatar: "monsterid",
-                    placeholder: "给我的文章加点评论吧~",
-                    recordIP: true
-			  });
-			  
-			  $('.article').removeClass('hidden');
-			  
-			},
-			error: function (XMLHttpRequest, textStatus, errorThrown) {
-	          window.location.hash='404';
-	        }
-	   });
+    // 先检查文章是否隐藏
+    $.ajax({
+      type: 'get',
+      dataType: 'json',
+      url: 'data/blog.json',
+      success: function(blogData) {
+        var articleInfo = null;
+        for (var i = 0; i < blogData.length; i++) {
+          if (blogData[i].id.toLowerCase() === hash[2].toLowerCase()) {
+            articleInfo = blogData[i];
+            break;
+          }
+        }
+        
+        // 如果文章不存在或被隐藏，跳转到 404
+        if (!articleInfo || articleInfo.visible === false) {
+          window.location.hash = '404';
+          return;
+        }
+        
+        // 文章可见，加载内容
+        loadArticleContent(hash[2]);
+      },
+      error: function() {
+        window.location.hash = '404';
+      }
+    });
   
   } 
   else window.location.hash = '404';
+  
+  function loadArticleContent(articleId) {
+    $.ajax({
+      type: 'get',
+      dataType: 'text',
+      url:'data/articles/' + articleId + '.md',
+      success: function(data){
+        
+        var testView = editormd.markdownToHTML("articleContent", {
+          markdown   : data,
+          htmlDecode : 'div',
+          tex        : true
+        });
+        
+        $('#articleContent a[href^="http"]').each(function() {
+          $(this).attr('target', '_blank');
+        });
+
+        try{
+          setArticleInfo(articles, articleId);
+        }
+        catch(err){
+          $.getJSON('data/blog.json',{},function(data){
+            articles = data;
+            setArticleInfo(articles, articleId);
+          });
+        }
+        
+        new Valine({
+          el:'#vcomments',
+          appId: 'G6WH8YA3tY7pwKP8SSnwJzpL-MdYXbMMI',
+          appKey: '5Xsu4TuKpBPS7VX0qEOo0CEG',
+          path: articleId,
+          serverURLs: 'https://G6WH8YA3.api.lncldglobal.com',
+          avatar: "monsterid",
+          placeholder: '给我的文章加点评论吧~',
+          recordIP: true
+        });
+        
+        $('.article').removeClass('hidden');
+        
+      },
+      error: function () {
+        window.location.hash='404';
+      }
+    });
+  }
   
   function setArticleInfo(articles,articleId) {
       

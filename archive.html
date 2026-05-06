@@ -1,45 +1,51 @@
 <script class="directAccess" src="directAccess.js"></script>
 
 <div class="blog hidden"></div>
+<div class="categories">
+  <div><span class="glyphicon glyphicon-folder-open"></span> 归档</div>
+  <ul></ul>
+</div>
 <div class="noEntryFound">
   <span class="glyphicon glyphicon-info-sign"></span>
-  <span>No archived entry exists<span>
+  <span>暂无归档日志</span>
 </div>
 
 <script>
 
 $(function(){
-
-  try {
-     articleList(archived);
-  }
-  catch(err){
   
-    $.ajax({
-		type: 'get',
-		dataType: 'json',
-		url:'data/archived.json',
-		success: function(data){
-		  archived = data; //global variable definition
-		  articleList(archived);
-		},
-		error: function (XMLHttpRequest, textStatus, errorThrown) {
-		   $('.noEntryFound').show();
-		}//album json file does not exist
-   
-    });
-   
+  let hash = window.location.hash.split('/');
+  
+  if(hash[1] && /^\d{4}$/.test(hash[1])) {
+    // 如果带了年份参数，重定向到 year.html
+    window.location.hash = '#year/' + hash[1];
+    return;
   }
   
-  function articleList(data) {
-   
-      $.each(data, function(i,item){
-	     $('.blog').append('<div><h4><a href="#blog/article/' + item.id.toLowerCase() + '">'+item.topic+'</a> <small><i>'+item.date+'</i></small></h4><p>'+item.abstract+'</p></div>');
-      });
-	  
-	  if(!$('.blog div').length) $('.noEntryFound').show();
-	  else $('.blog').removeClass('hidden');
-   }
+  // 显示归档年份列表
+  $.ajax({
+    type: 'get',
+    dataType: 'json',
+    url: 'data/archive.json',
+    success: function(data) {
+      if (data && data.length > 0) {
+        // 降序排列，最新年份在前
+        data.sort().reverse();
+        for(var year of data) {
+          $('.categories ul').append('<li><a href="#year/'+year+'"><span class="glyphicon glyphicon-folder-close"></span> '+year+' 年</a></li>');
+        }
+        $('.categories').show();
+      } else {
+        $('.noEntryFound span').text('暂无归档日志');
+        $('.noEntryFound').show();
+      }
+    },
+    error: function() {
+      $('.noEntryFound span').text('暂无归档日志');
+      $('.noEntryFound').show();
+    }
+  });
+  
 })
 
 </script>

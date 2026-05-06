@@ -74,91 +74,106 @@ $(function(){
 	else $('.hintText').text('Loading...').stop(true,true).fadeIn('fast');
   }
     
+  // 检查相册是否可见
+  function checkAlbumVisible(albumType, albumId, callback) {
+      $.ajax({
+          type: 'get',
+          dataType: 'json',
+          url: 'data/album.json',
+          success: function(data) {
+              var albumItem = null;
+              $.each(data, function(i, item) {
+                  if (albumType === 'urls' && item.urls === albumId) {
+                      albumItem = item;
+                      return false;
+                  }
+                  if (albumType === 'dir' && item.dir === albumId) {
+                      albumItem = item;
+                      return false;
+                  }
+              });
+              
+              // 相册不存在或被隐藏
+              if (!albumItem || albumItem.visible === false) {
+                  window.location.hash = '404';
+                  return;
+              }
+              
+              // 相册可见，继续加载
+              callback(albumItem);
+          },
+          error: function() {
+              window.location.hash = '404';
+          }
+      });
+  }
+  
   function doMasonry() {
   
      let hash = window.location.hash.split('/');
 	 
      if(hash[2]=='urls') {
-		 $.ajax({
-			 type: 'get',
-			 dataType: 'json',
-			 url: 'data/photos/'+hash[3]+'.json',
-			 success: function(data){
-				 
-				 imgNum = data.length;
-				 
-				 $.each(data, function(i,item){
-					
-					if($('img[src="'+item+'"]').length ) return true;
-					
-					if(countPerPage > imgPerPage-1 ) return false;
-					
-					var $img = $('<div class="thumbnail" style="width:'+itemWidth+'px;"><div class="loading"></div><img src="'+item+'"  class="img-responsive"></div>');
-					
-					$grid.masonry().append( $img ).masonry( 'appended', $img );
-					
-					$img.imagesLoaded().progress(function(instance, image){
-					   
-					   checkAfterLoaded(image);
-					   
-					});
-					
-					countPerPage++;
-					imgCount++;
-				 }); 
-			  },
-			  //timeout: 1500,
-			  error: function (XMLHttpRequest, textStatus, errorThrown) {
-				   window.location.hash='404';
-			  }//photo json file does not exist
-		  });
+         // 检查相册是否可见
+         checkAlbumVisible('urls', hash[3], function(albumItem) {
+             $.ajax({
+                 type: 'get',
+                 dataType: 'json',
+                 url: 'data/photos/'+hash[3]+'.json',
+                 success: function(data){
+                     
+                     imgNum = data.length;
+                     
+                     $.each(data, function(i,item){
+                        
+                        if($('img[src="'+item+'"]').length ) return true;
+                        
+                        if(countPerPage > imgPerPage-1 ) return false;
+                        
+                        var $img = $('<div class="thumbnail" style="width:'+itemWidth+'px;"><div class="loading"></div><img src="'+item+'" class="img-responsive"></div>');
+                        
+                        $grid.masonry().append( $img ).masonry( 'appended', $img );
+                        
+                        $img.imagesLoaded().progress(function(instance, image){
+                           
+                           checkAfterLoaded(image);
+                           
+                        });
+                        
+                        countPerPage++;
+                        imgCount++;
+                     }); 
+                  },
+                  error: function () {
+                       window.location.hash='404';
+                  }
+             });
+         });
 	  }
-	  else if(hash[2]=='dir'){
-	  
-	      $.ajax({
-			 type: 'get',
-			 dataType: 'json',
-			 url: 'data/album.json',
-			 success: function(data) {
-			     
-			     $.each(data, function(i,item){
-				     
-					 if(item.dir==hash[3]) {
-					    
-						imgNum = item.total;
-						
-						for(var i=0;i< item.total;i++) {
-			 
-							 var imgUrl = ossPath + 'images/album/' + item.dir + '/' + i +'.' + item.format;
-							 var $img = $('<div class="thumbnail" style="width:'+itemWidth+'px;"><div class="loading"></div><img src="'+imgUrl+'" class="img-responsive"></div>');
-							 
-							 if($('img[src="'+imgUrl+'"]').length ) continue;
-								
-							 if(countPerPage > imgPerPage-1 ) break;
-							 
-							 $grid.masonry().append( $img ).masonry( 'appended', $img );
-							 $img.imagesLoaded().progress(function(instance, image){
-							    
-								checkAfterLoaded(image);
-								
-							 });
-							 
-							 countPerPage++;
-							 imgCount++;
-		                }
-						
-					    return false;
-					 }
-				 });
-				 
-				 if(!imgNum) window.location.hash='404'; //dir does not exist
-			 },
-			 //timeout: 1500,
-			 error: function (XMLHttpRequest, textStatus, errorThrown) {
-				   window.location.hash='404';
-			 }//album json file does not exist
-			 
-		  });
+	  else if(hash[2]=='dir') {
+          // 检查相册是否可见
+          checkAlbumVisible('dir', hash[3], function(albumItem) {
+              imgNum = albumItem.total;
+              
+              for(var i=0; i < albumItem.total; i++) {
+                  
+                  var imgUrl = ossPath + 'images/album/' + albumItem.dir + '/' + i + '.' + albumItem.format;
+                  var $img = $('<div class="thumbnail" style="width:'+itemWidth+'px;"><div class="loading"></div><img src="'+imgUrl+'" class="img-responsive"></div>');
+                  
+                  if($('img[src="'+imgUrl+'"]').length) continue;
+                      
+                  if(countPerPage > imgPerPage-1) break;
+                  
+                  $grid.masonry().append( $img ).masonry( 'appended', $img );
+                  $img.imagesLoaded().progress(function(instance, image){
+                      
+                      checkAfterLoaded(image);
+                      
+                  });
+                  
+                  countPerPage++;
+                  imgCount++;
+              }
+          });
       }
 	  
 	  else window.location.hash='404';  //invalid album type other than dir and urls

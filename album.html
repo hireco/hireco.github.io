@@ -35,31 +35,96 @@ $(function(){
 	dataType: 'json',
 	url:'data/album.json',
 	success: function(data){
-	   $.each(data, function(i,item){
-	
-			if(item.urls) {
-				$elem = $('<a href="#album/photo/urls/'+item.urls+'" class="thumbnail" style="width:'+itemWidth+'px;"><img class="img-responsive" src="'+item.cover+'" title="'+item.topic+'"><p class="title">'+item.topic+'</p></a>');
-			}
-			else {
-				$elem = $('<a href="#album/photo/dir/'+item.dir+'" class="thumbnail" style="width:'+itemWidth+'px;"><img class="img-responsible" src="'+ossPath+'images/album/'+item.dir+'/0'+'.'+item.format+'"  title="'+item.topic+'"><p class="title">'+item.topic+'</p></a>');
-			}
-			
-			$grid.append( $elem ).masonry( 'appended', $elem );
-			
-			$elem.imagesLoaded().progress(function(instance, image) {
-				 
-				 if(!image.isLoaded) {	 
-	                 $(image.img).parent().empty().append($('.failed').eq(0).clone()).attr('href',window.location.hash);
-	             }
-				 
-				 $grid.masonry().masonry('layout');
-				 
-				 //console.log(image.img);
-			});
+	   
+	   // 过滤掉 hidden 的相册
+	   var visibleAlbums = data.filter(function(item) {
+		  return item.visible !== false;
+	   });
+	   
+	   // 递归加载每个相册的封面
+	   function loadAlbumCovers(albums, index) {
+		  if (index >= albums.length) {
+			 return; // 所有相册加载完成
+		  }
 		  
-       });
+		  var item = albums[index];
+		  
+		  // 跳过 hidden 的相册
+		  if (item.visible === false) {
+			 loadAlbumCovers(albums, index + 1);
+			 return;
+		  }
+		  
+		  if (item.urls) {
+			 // 加载该相册的图片列表
+			 $.ajax({
+				type: 'get',
+				dataType: 'json',
+				url: 'data/photos/' + item.urls + '.json',
+				success: function(photos) {
+				   // 直接使用 album.json 中的 cover URL
+				   var coverUrl = item.cover || '';
+				   
+				   // 如果没有 cover URL 或 cover_index 有效，则从 photos 中获取
+				   if (!coverUrl && photos.length > 0) {
+				      var coverIndex = parseInt(item.cover_index) || 0;
+				      if (coverIndex < 0 || coverIndex >= photos.length) coverIndex = 0;
+				      coverUrl = photos[coverIndex];
+				   }
+				   
+				   // 转换本地图片路径
+				   if (coverUrl && coverUrl.indexOf('photos/') === 0) {
+					  coverUrl = '/' + coverUrl;
+				   }
+				   
+				   var $elem = $('<a href="#album/photo/urls/'+item.urls+'" class="thumbnail" style="width:'+itemWidth+'px;"><img class="img-responsive" src="'+coverUrl+'" title="'+item.topic+'"><p class="title">'+item.topic+'</p></a>');
+				   
+				   $grid.append($elem).masonry('appended', $elem);
+				   
+				   $elem.imagesLoaded().progress(function(instance, image) {
+						if (!image.isLoaded) {
+							$(image.img).parent().empty().append($('.failed').eq(0).clone()).attr('href', window.location.hash);
+						}
+						$grid.masonry().masonry('layout');
+				   });
+				   
+				   // 加载下一个相册
+				   loadAlbumCovers(albums, index + 1);
+				},
+				error: function() {
+				   // 相册图片不存在，使用默认占位图
+				   var $elem = $('<a href="#album/photo/urls/'+item.urls+'" class="thumbnail" style="width:'+itemWidth+'px;"><img class="img-responsive" src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'150\'%3E%3Crect fill=\'%23333\' width=\'200\' height=\'150\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' fill=\'%23999\' font-size=\'14\' text-anchor=\'middle\' dy=\'.3em\'%3ENo Images%3C/text%3E%3C/svg%3E" title="'+item.topic+'"><p class="title">'+item.topic+'</p></a>');
+				   
+				   $grid.append($elem).masonry('appended', $elem);
+				   $grid.masonry().masonry('layout');
+				   
+				   // 加载下一个相册
+				   loadAlbumCovers(albums, index + 1);
+				}
+			 });
+		  }
+		  else {
+			 // 旧格式，使用 dir 和 format
+			 var $elem = $('<a href="#album/photo/dir/'+item.dir+'" class="thumbnail" style="width:'+itemWidth+'px;"><img class="img-responsive" src="'+ossPath+'images/album/'+item.dir+'/0.'+item.format+'" title="'+item.topic+'"><p class="title">'+item.topic+'</p></a>');
+			 
+			 $grid.append($elem).masonry('appended', $elem);
+			 
+			 $elem.imagesLoaded().progress(function(instance, image) {
+				if (!image.isLoaded) {
+					$(image.img).parent().empty().append($('.failed').eq(0).clone()).attr('href', window.location.hash);
+				}
+				$grid.masonry().masonry('layout');
+			 });
+			 
+			 // 加载下一个相册
+			 loadAlbumCovers(albums, index + 1);
+		  }
+	   }
+	   
+	   // 开始加载
+	   loadAlbumCovers(data, 0);
+	   
     },
-	//timeout: 1500,
 	error: function (XMLHttpRequest, textStatus, errorThrown) {
 	   window.location.hash='404';
 	}//album json file does not exist
