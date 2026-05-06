@@ -100,8 +100,10 @@ function welcome(){
   
   $.getJSON('data/saying.json',{},function(data,textStatus){
 	  let rnd = randInt(data.length-1,0);
-	  sayingContent = data[rnd].content;
-	  sayingAuthor = data[rnd].person; 
+	  let item = data[rnd];
+	  let lifespan = item.lifespan ? item.lifespan.replace(/-/g, '~') : '';
+	  sayingContent = item.quote;
+	  sayingAuthor = item.author + (lifespan ? ' ' + lifespan : '');
   });
   
   if(welcomeImgPath=='dir') {
