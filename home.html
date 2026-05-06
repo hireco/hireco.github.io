@@ -97,13 +97,12 @@ function slideShow(){
 function welcome(){
 
   $('.mainContent').addClass('loading');
-  
   $.getJSON('data/saying.json',{},function(data,textStatus){
 	  let rnd = randInt(data.length-1,0);
-	  let item = data[rnd];
-	  let lifespan = item.lifespan ? item.lifespan.replace(/-/g, '~') : '';
-	  sayingContent = item.quote;
-	  sayingAuthor = item.author + (lifespan ? ' ' + lifespan : '');
+	  sayingContent = data[rnd].quote;
+	  let author = data[rnd].author;
+	  let lifespan = data[rnd].lifespan;
+	  sayingAuthor = lifespan ? author + ', ' + lifespan.replace(/-/g, '~') : author; 
   });
   
   if(welcomeImgPath=='dir') {
