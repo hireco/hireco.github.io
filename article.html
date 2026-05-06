@@ -16,7 +16,6 @@
 	  <p class="prevNext"></p>
 	</div>
 	<div id="vcomments"></div>
-  <div id="waline"></div>
 </div>
 
 <script>
@@ -84,9 +83,7 @@ $(function(){
             setArticleInfo(articles, articleId);
           });
         }
-
         
-        /*
         new Valine({
           el:'#vcomments',
           appId: 'G6WH8YA3tY7pwKP8SSnwJzpL-MdYXbMMI',
@@ -97,8 +94,6 @@ $(function(){
           placeholder: '给我的文章加点评论吧~',
           recordIP: true
         });
-
-        */
         
         $('.article').removeClass('hidden');
         
@@ -139,13 +134,4 @@ $(function(){
   
 })
 
-</script>
-
-<script type="module">
-    import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
-
-    init({
-      el: '#waline',
-      serverURL: 'https://comment.19051915.xyz',
-    });
 </script>
