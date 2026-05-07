@@ -41,7 +41,7 @@ function clearAuth() {
 function logout() {
     clearAuth();
     document.getElementById('main-content').style.display = 'none';
-    document.getElementById('login-box').style.display = 'flex';
+    document.getElementById('login-box').style.display = 'block';
     document.getElementById('pwd-input').value = '';
 }
 
