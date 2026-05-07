@@ -1,4 +1,6 @@
 #### Contact me
-![Do not send me spam](images/email.png)
+![Do not send me spam](/images/email.png)
 
-![Scan it and follow me](images/WXQRCode.png)
+![Scan it and follow me](/images/WXQRCode.png)
+
+WeiXinID：<font color="darkred">VeriCore</font>
