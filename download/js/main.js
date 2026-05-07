@@ -1,10 +1,45 @@
 // ================= 密码配置 =================
 const PAGE_PASSWORD_HASH = 'e61b26836f2013c722ce1724f462ed58843b0eb9cb1700ca0d83eef77cc7bf56';
 
-// ================= GitHub 配置 =================
-const GITHUB_USERNAME = 'hireco';
-const GITHUB_REPO = 'hireco.github.io';
-const ROOT_FOLDER = 'download/files';
+// ================= 登录状态配置 =================
+const LOGIN_KEY = 'download_auth';
+const EXPIRY_DAYS = 7;  // 7天内免登录
+
+// 检查登录状态
+function checkAuthStatus() {
+    const authData = localStorage.getItem(LOGIN_KEY);
+    if (!authData) return false;
+    
+    try {
+        const { timestamp } = JSON.parse(authData);
+        const expiryTime = timestamp + (EXPIRY_DAYS * 24 * 60 * 60 * 1000);
+        return Date.now() < expiryTime;
+    } catch (e) {
+        return false;
+    }
+}
+
+// 保存登录状态
+function saveAuthStatus() {
+    const authData = {
+        timestamp: Date.now()
+    };
+    localStorage.setItem(LOGIN_KEY, JSON.stringify(authData));
+}
+
+// 清除登录状态
+function clearAuth() {
+    localStorage.removeItem(LOGIN_KEY);
+}
+
+// 退出登录
+function logout() {
+    clearAuth();
+    document.getElementById('main-content').style.display = 'none';
+    document.getElementById('login-box').style.display = 'flex';
+    document.getElementById('pwd-input').value = '';
+}
+
 // ============================================
 
 async function sha256(text) {
@@ -15,6 +50,17 @@ async function sha256(text) {
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
+// 页面加载时检查登录状态
+function initAuth() {
+    if (checkAuthStatus()) {
+        document.getElementById('login-box').style.display = 'none';
+        document.getElementById('main-content').style.display = 'block';
+        loadPath(ROOT_FOLDER);
+        return true;
+    }
+    return false;
+}
+
 document.getElementById('pwd-input').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') checkPassword();
 });
@@ -23,6 +69,7 @@ async function checkPassword() {
     const input = document.getElementById('pwd-input').value;
     const inputHash = await sha256(input);
     if (inputHash === PAGE_PASSWORD_HASH) {
+        saveAuthStatus();  // 保存登录状态
         document.getElementById('login-box').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
         loadPath(ROOT_FOLDER);

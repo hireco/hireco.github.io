@@ -61,6 +61,7 @@
         <div class="main-header">
             <h1><i class="ri-download-cloud-2-line"></i> 文件下载中心</h1>
             <p>所有资源均可免费下载</p>
+            <button class="logout-btn" onclick="logout()"><i class="ri-logout-box-r-line"></i> 退出</button>
         </div>
         <div class="main-content">
             <div class="breadcrumb">
@@ -75,6 +76,12 @@
 </div>
 
 <script src="js/main.js"></script>
+<script>
+    // 页面加载时检查登录状态
+    document.addEventListener('DOMContentLoaded', function() {
+        initAuth();
+    });
+</script>
 
 </body>
 </html>
