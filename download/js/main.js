@@ -1,6 +1,11 @@
 // ================= 密码配置 =================
 const PAGE_PASSWORD_HASH = 'e61b26836f2013c722ce1724f462ed58843b0eb9cb1700ca0d83eef77cc7bf56';
 
+// ================= GitHub 配置 =================
+const GITHUB_USERNAME = 'hireco';
+const GITHUB_REPO = 'hireco.github.io';
+const ROOT_FOLDER = 'download/files';
+
 // ================= 登录状态配置 =================
 const LOGIN_KEY = 'download_auth';
 const EXPIRY_DAYS = 7;  // 7天内免登录
