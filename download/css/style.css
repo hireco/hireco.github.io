@@ -4,6 +4,10 @@
     padding: 0;
 }
 
+html {
+    overflow-y: scroll;
+}
+
 body {
     font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif;
     min-height: 100vh;
@@ -12,11 +16,7 @@ body {
         radial-gradient(ellipse at 20% 20%, rgba(120, 80, 255, 0.15) 0%, transparent 50%),
         radial-gradient(ellipse at 80% 80%, rgba(0, 210, 255, 0.12) 0%, transparent 50%),
         radial-gradient(ellipse at 50% 50%, rgba(255, 100, 150, 0.08) 0%, transparent 60%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    overflow-x: hidden;
+    /* padding removed to prevent layout shift */
 }
 
 /* 动态背景粒子 */
@@ -53,10 +53,12 @@ body {
 }
 
 .container {
-    width: 100%;
-    max-width: 680px;
+    width: 680px;
+    max-width: 100%;
+    margin: 0 auto;
     position: relative;
     z-index: 1;
+    padding: 20px;
 }
 
 /* 玻璃态卡片 */
@@ -83,10 +85,11 @@ body {
 .decoration-ring {
     position: absolute;
     top: -80px;
-    left: 50%;
-    transform: translateX(-50%);
     width: 160px;
     height: 160px;
+    margin-left: -80px;
+    margin-right: auto;
+    left: 50%;
     border-radius: 50%;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     opacity: 0.2;
@@ -189,13 +192,6 @@ body {
     font-size: 14px;
     margin-top: 16px;
     display: none;
-    animation: shake 0.5s ease;
-}
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
 }
 
 /* 分隔线 */

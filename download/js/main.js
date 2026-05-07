@@ -81,11 +81,6 @@ async function checkPassword() {
     } else {
         document.getElementById('error-msg').style.display = 'block';
         document.getElementById('pwd-input').value = '';
-        // 重新触发动画
-        const errorMsg = document.getElementById('error-msg');
-        errorMsg.style.animation = 'none';
-        errorMsg.offsetHeight;
-        errorMsg.style.animation = 'shake 0.5s ease';
     }
 }
 
