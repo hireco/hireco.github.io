@@ -10,6 +10,11 @@ const GITHUB_REPO = 'hireco.github.io';
 const ROOT_FOLDER = 'download/files';
 // ============================================
 
+// ================= DOM 元素 =================
+const listElement = document.getElementById('file-list');
+const breadcrumbElement = document.getElementById('breadcrumb');
+// ============================================
+
 async function sha256(text) {
     const encoder = new TextEncoder();
     const data = encoder.encode(text);
@@ -67,9 +72,6 @@ async function checkPassword() {
         errorMsg.style.animation = 'shake 0.5s ease';
     }
 }
-
-const listElement = document.getElementById('file-list');
-const breadcrumbElement = document.getElementById('breadcrumb-text');
 
 function formatBytes(bytes, decimals = 2) {
     if (!+bytes) return '0 B';
