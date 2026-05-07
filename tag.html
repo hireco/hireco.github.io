@@ -1,7 +1,7 @@
 <script class="directAccess" src="directAccess.js"></script>
 
 <div class="page-title">
-  <div><span class="glyphicon glyphicon-tags"></span> All Tags</div>
+  <div><span class="glyphicon glyphicon-tags"></span> 标签</div>
 </div>
 
 <div class="blog hidden"></div>
@@ -50,6 +50,7 @@ $(function(){
   }
   
   function articleListWithTag(data, tag) {
+    $('.page-title div').html('<span class="glyphicon glyphicon-tags"></span> 标签 <span class="path-sep">&gt;</span> ' + tag);
     $('.tags-container').hide();
     $('.blog').hide();
     $('.noEntryFound').show();

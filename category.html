@@ -1,7 +1,7 @@
 <script class="directAccess" src="directAccess.js"></script>
 
 <div class="page-title">
-  <div><span class="glyphicon glyphicon-th-list"></span> All Categories</div>
+  <div><span class="glyphicon glyphicon-th-list"></span> 分类</div>
 </div>
 
 <div class="blog hidden"></div>
@@ -49,6 +49,8 @@ $(function(){
    }
    
    function articleListWithCategory(data,category) {
+   
+   $('.page-title div').html('<span class="glyphicon glyphicon-th-list"></span> 分类 <span class="path-sep">&gt;</span> ' + category);
    
       $.each(data, function(i,item){
 			 
