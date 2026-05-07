@@ -10,39 +10,32 @@
 </head>
 <body>
 
-<!-- 浮动导航 -->
-<div class="float-nav">
-    <div class="float-nav-toggle" onclick="toggleFloatNav()">
-        <i class="ri-menu-line"></i>
-    </div>
-    <div class="float-nav-content">
-        <a href="../index.html" class="nav-item" title="返回主页">
-            <i class="ri-home-4-line"></i>
-        </a>
-        <a href="javascript:void(0)" class="nav-item" onclick="showDonate()" title="打赏">
-            <i class="ri-hand-heart-line"></i>
-        </a>
-        <a href="javascript:void(0)" class="nav-item" onclick="logout()" title="退出">
-            <i class="ri-logout-box-r-line"></i>
-        </a>
-    </div>
-</div>
+<!-- 顶部导航 -->
+<nav class="top-nav">
+    <a href="../index.html" class="nav-item" title="返回主页">
+        <i class="ri-home-4-line"></i> <span>主页</span>
+    </a>
+    <a href="javascript:void(0)" class="nav-item" onclick="showDonate()" title="打赏">
+        <i class="ri-hand-heart-line"></i> <span>打赏</span>
+    </a>
+    <a href="javascript:void(0)" class="nav-item" id="logout-btn" onclick="logout()" title="退出" style="display:none;">
+        <i class="ri-logout-box-r-line"></i> <span>退出</span>
+    </a>
+</nav>
+
+<!-- 动态背景粒子 -->
+<div class="particles"></div>
 
 <!-- 打赏弹窗 -->
 <div id="donate-modal" class="float-modal">
-    <div class="modal-content">
-        <iframe src="../donate.html" frameborder="0"></iframe>
+    <div class="donate-card">
         <button class="modal-close" onclick="closeDonate()">×</button>
+        <div class="donate-title">
+            <i class="ri-hand-heart-line"></i> 打赏支持
+        </div>
+        <img src="images/donateMe.png" alt="微信赞赏" width="200" height="200" class="donate-qrcode">
+        <p class="donate-hint">感谢您的支持</p>
     </div>
-</div>
-
-<!-- 动态背景粒子 -->
-<div class="particles">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
 </div>
 
 <div class="container">
@@ -87,7 +80,6 @@
         <div class="main-header">
             <h1><i class="ri-download-cloud-2-line"></i> 文件下载中心</h1>
             <p>所有资源均可免费下载</p>
-            <button class="logout-btn" onclick="logout()"><i class="ri-logout-box-r-line"></i> 退出</button>
         </div>
         <div class="main-content">
             <div class="breadcrumb">
@@ -107,12 +99,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         initAuth();
     });
-
-    // 浮动导航
-    function toggleFloatNav() {
-        var nav = document.querySelector('.float-nav');
-        nav.classList.toggle('collapsed');
-    }
 
     // 显示打赏弹窗
     function showDonate() {

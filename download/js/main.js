@@ -60,6 +60,7 @@ function initAuth() {
     if (checkAuthStatus()) {
         document.getElementById('login-box').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
+        document.getElementById('logout-btn').style.display = 'flex';
         loadPath(ROOT_FOLDER);
         return true;
     }
@@ -77,6 +78,7 @@ async function checkPassword() {
         saveAuthStatus();  // 保存登录状态
         document.getElementById('login-box').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
+        document.getElementById('logout-btn').style.display = 'flex';
         loadPath(ROOT_FOLDER);
     } else {
         document.getElementById('error-msg').style.display = 'block';

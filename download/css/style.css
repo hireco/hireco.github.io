@@ -532,78 +532,44 @@ body {
     }
 }
 
-/* ================= 浮动导航 ================= */
-.float-nav {
+/* ================= 顶部导航 ================= */
+.top-nav {
     position: fixed;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-.float-nav-toggle {
-    width: 44px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 20px;
-}
-
-.float-nav-toggle:hover {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-.float-nav.collapsed .float-nav-content {
-    opacity: 0;
-    transform: translateX(10px);
-    pointer-events: none;
-}
-
-.float-nav.collapsed .float-nav-toggle i {
-    transform: rotate(180deg);
-}
-
-.float-nav-content {
-    display: flex;
-    flex-direction: column;
     gap: 8px;
-    margin-bottom: 10px;
-    transition: all 0.3s ease;
-    overflow: hidden;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.float-nav-content .nav-item {
-    width: 44px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 12px;
+.top-nav .nav-item {
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 20px;
-    transition: all 0.3s ease;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 14px;
     text-decoration: none;
+    transition: all 0.3s ease;
 }
 
-.float-nav-content .nav-item:hover {
-    background: rgba(255, 255, 255, 0.25);
+.top-nav .nav-item:hover {
+    background: rgba(255, 255, 255, 0.15);
     color: white;
-    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.top-nav .nav-item i {
+    font-size: 16px;
 }
 
 /* ================= 打赏弹窗 ================= */
@@ -627,43 +593,72 @@ body {
     opacity: 1;
 }
 
-.float-modal .modal-content {
+.float-modal .donate-card {
     position: relative;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     transform: scale(0.9);
     transition: transform 0.3s ease;
 }
 
-.float-modal.active .modal-content {
+.float-modal.active .donate-card {
     transform: scale(1);
 }
 
-.float-modal iframe {
-    width: 320px;
-    height: 420px;
-    display: block;
-    border: none;
+.float-modal .donate-card img {
+    border-radius: 12px;
+    margin-bottom: 16px;
+}
+
+.float-modal .donate-title {
+    color: #333;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.float-modal .donate-title i {
+    color: #ff6b6b;
+}
+
+.float-modal .donate-qrcode {
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 3px solid #f0f0f0;
+}
+
+.float-modal .donate-hint {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
 }
 
 .float-modal .modal-close {
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 36px;
-    height: 36px;
-    background: rgba(255, 255, 255, 0.2);
+    width: 32px;
+    height: 32px;
+    background: rgba(0, 0, 0, 0.1);
     border: none;
     border-radius: 50%;
-    color: white;
-    font-size: 22px;
+    color: #666;
+    font-size: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
     line-height: 1;
 }
 
 .float-modal .modal-close:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(0, 0, 0, 0.2);
+    color: #333;
     transform: rotate(90deg);
 }
