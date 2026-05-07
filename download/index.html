@@ -95,10 +95,8 @@
 
 <script src="js/main.js"></script>
 <script>
-    // 页面加载时检查登录状态
-    document.addEventListener('DOMContentLoaded', function() {
-        initAuth();
-    });
+    // 页面加载时检查登录状态（直接调用，因为 script 在 body 底部）
+    initAuth();
 
     // 显示打赏弹窗
     function showDonate() {
