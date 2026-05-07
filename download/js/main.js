@@ -1,10 +1,7 @@
 // ================= 密码配置 =================
 const PAGE_PASSWORD_HASH = 'e61b26836f2013c722ce1724f462ed58843b0eb9cb1700ca0d83eef77cc7bf56';
-
-// ================= GitHub 配置 =================
-const GITHUB_USERNAME = 'hireco';
-const GITHUB_REPO = 'hireco.github.io';
-const ROOT_FOLDER = 'download/files';
+const STORAGE_KEY = 'download_auth';
+const AUTH_EXPIRY_DAYS = 7; // 登录状态有效期（天）
 // ============================================
 
 async function sha256(text) {
@@ -15,6 +12,31 @@ async function sha256(text) {
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
+// 页面加载时检查是否已登录（带过期时间）
+function checkAuthStatus() {
+    const authData = localStorage.getItem(STORAGE_KEY);
+    if (authData) {
+        try {
+            const { expires } = JSON.parse(authData);
+            const now = Date.now();
+            if (expires > now) {
+                document.getElementById('login-box').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                loadPath(ROOT_FOLDER);
+                return true;
+            } else {
+                localStorage.removeItem(STORAGE_KEY); // 已过期，删除
+            }
+        } catch (e) {
+            localStorage.removeItem(STORAGE_KEY);
+        }
+    }
+    return false;
+}
+
+// 页面加载时自动检查
+checkAuthStatus();
+
 document.getElementById('pwd-input').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') checkPassword();
 });
@@ -23,6 +45,9 @@ async function checkPassword() {
     const input = document.getElementById('pwd-input').value;
     const inputHash = await sha256(input);
     if (inputHash === PAGE_PASSWORD_HASH) {
+        // 保存登录状态，设置7天过期
+        const expires = Date.now() + AUTH_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ expires }));
         document.getElementById('login-box').style.display = 'none';
         document.getElementById('main-content').style.display = 'block';
         loadPath(ROOT_FOLDER);
