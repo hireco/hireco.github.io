@@ -191,3 +191,27 @@ async function loadPath(currentPath) {
         listElement.innerHTML = `<li class="error"><i class="ri-error-warning-line"></i> 加载失败: ${error.message}</li>`;
     }
 }
+
+// 显示打赏弹窗
+function showDonate() {
+    var modal = document.getElementById('donate-modal');
+    if (modal) {
+        modal.classList.add('active');
+    }
+}
+
+// 关闭打赏弹窗
+function closeDonate() {
+    var modal = document.getElementById('donate-modal');
+    if (modal) {
+        modal.classList.remove('active');
+    }
+}
+
+// 点击弹窗背景关闭
+document.addEventListener('click', function(e) {
+    var modal = document.getElementById('donate-modal');
+    if (modal && e.target === modal) {
+        closeDonate();
+    }
+});

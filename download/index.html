@@ -10,6 +10,32 @@
 </head>
 <body>
 
+<!-- 浮动导航 -->
+<div class="float-nav">
+    <div class="float-nav-toggle" onclick="toggleFloatNav()">
+        <i class="ri-menu-line"></i>
+    </div>
+    <div class="float-nav-content">
+        <a href="../index.html" class="nav-item" title="返回主页">
+            <i class="ri-home-4-line"></i>
+        </a>
+        <a href="javascript:void(0)" class="nav-item" onclick="showDonate()" title="打赏">
+            <i class="ri-hand-heart-line"></i>
+        </a>
+        <a href="javascript:void(0)" class="nav-item" onclick="logout()" title="退出">
+            <i class="ri-logout-box-r-line"></i>
+        </a>
+    </div>
+</div>
+
+<!-- 打赏弹窗 -->
+<div id="donate-modal" class="float-modal">
+    <div class="modal-content">
+        <iframe src="../donate.html" frameborder="0"></iframe>
+        <button class="modal-close" onclick="closeDonate()">×</button>
+    </div>
+</div>
+
 <!-- 动态背景粒子 -->
 <div class="particles">
     <div class="particle"></div>
@@ -80,6 +106,38 @@
     // 页面加载时检查登录状态
     document.addEventListener('DOMContentLoaded', function() {
         initAuth();
+    });
+
+    // 浮动导航
+    function toggleFloatNav() {
+        var nav = document.querySelector('.float-nav');
+        nav.classList.toggle('collapsed');
+    }
+
+    // 显示打赏弹窗
+    function showDonate() {
+        var modal = document.getElementById('donate-modal');
+        modal.style.display = 'flex';
+        setTimeout(function() {
+            modal.classList.add('active');
+        }, 10);
+    }
+
+    // 关闭打赏弹窗
+    function closeDonate() {
+        var modal = document.getElementById('donate-modal');
+        modal.classList.remove('active');
+        setTimeout(function() {
+            modal.style.display = 'none';
+        }, 300);
+    }
+
+    // 点击弹窗背景关闭
+    document.addEventListener('click', function(e) {
+        var modal = document.getElementById('donate-modal');
+        if (e.target === modal) {
+            closeDonate();
+        }
     });
 </script>
 
