@@ -4,6 +4,12 @@ const STORAGE_KEY = 'download_auth';
 const AUTH_EXPIRY_DAYS = 7; // 登录状态有效期（天）
 // ============================================
 
+// ================= GitHub 配置 =================
+const GITHUB_USERNAME = 'hireco';
+const GITHUB_REPO = 'hireco.github.io';
+const ROOT_FOLDER = 'download/files';
+// ============================================
+
 async function sha256(text) {
     const encoder = new TextEncoder();
     const data = encoder.encode(text);
