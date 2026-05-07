@@ -10,6 +10,6 @@ Life is vast and unpredictable（人生海海）, always ready to record those i
 Einstein founded the theory of special relativity in 1905 and the theory of general relativity in 1915, and this domain name is derived from the combination of these two year numbers.
 
 
-<center><img src="/images/einstein.png" width="300" alt="Albert Einstein" style="padding:10px;"></center>
+<center><img src="/images/einstein.png" width="300" alt="Albert Einstein" style="background-color:#efefef; border-radius: 50%; padding:10px;"></center>
 
 <center>Albert Einstein（1879~1955）</center>
