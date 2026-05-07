@@ -12,7 +12,7 @@ const ROOT_FOLDER = 'download/files';
 
 // ================= DOM 元素 =================
 const listElement = document.getElementById('file-list');
-const breadcrumbElement = document.getElementById('breadcrumb');
+const breadcrumbElement = document.getElementById('breadcrumb-text');
 // ============================================
 
 async function sha256(text) {
