@@ -1,0 +1,42 @@
+<script class="directAccess" src="../directAccess.js"></script>
+
+<div class="page-title">
+  <div><span class="glyphicon glyphicon-envelope"></span>联系站长</div>
+</div>
+
+<div>
+
+ <div class="editormd-preview-theme-dark">
+ <div class="contentView" id="contact"></div>
+ </div>
+ 
+ <blockquote class="myquote">
+  <p>See, in all our searching, the only thing we've found that makes the emptiness bearable, is each other</p>
+  <footer>by <cite title="Source Title">Carl Sagan (1934~1996)</cite></footer>
+ </blockquote>
+ 
+</div>
+
+<script>
+$(function(){
+   $.ajax({
+			type: 'get',
+			dataType: 'text',
+			url:'data/contact.md',
+			success: function(data){
+			  
+				var testView = editormd.markdownToHTML("contact", {
+					   markdown   : data,
+					   htmlDecode : 'img'
+				});
+				
+				$('#contact a[href^="http"]').each(function() {
+			        $(this).attr('target', '_blank');
+		        });
+			},
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+	          window.location.hash='404';
+	        }
+	   });
+});
+</script>

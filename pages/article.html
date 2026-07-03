@@ -1,0 +1,277 @@
+<script class="directAccess" src="../directAccess.js"></script>
+
+<div class="page-title">
+  <div><span class="glyphicon glyphicon-list-alt"></span> 日志全文</div>
+</div>
+
+<div class="article hidden">
+	<div class="articleHeader">
+		<span class="glyphicon glyphicon-calendar"></span>
+		<span class="myDate"></span><span class="glyphicon glyphicon-th-list"></span>
+		<span class="myCategory"></span>
+		<span style="margin-left: 10px;"><span class="glyphicon glyphicon-eye-open"></span> 阅读 <span class="waline-pageview-count"></span></span>
+		</div>
+		<h2 class="articleTitle"></h2>
+	<div class="articleBody editormd-preview-theme-dark">
+	   <div id="articleContent"></div>
+	</div>
+	<div class="articleFooter">
+	  <p>
+	    <span class="glyphicon glyphicon-tags"></span>
+		<span class="myTags"></span>
+	  </p>
+	  <p class="prevNext"></p>
+	</div>
+<style>.wl-reaction-title { visibility: hidden; }</style>
+	<div id="vcomments"></div>
+</div>
+
+
+<script>
+
+$(function(){
+
+  let hash = window.location.hash.split('/');
+
+  if(hash[2]) {
+
+    // 先检查文章是否隐藏
+    $.ajax({
+      type: 'get',
+      dataType: 'json',
+      url: 'data/blog.json',
+      success: function(blogData) {
+        var articleInfo = null;
+        for (var i = 0; i < blogData.length; i++) {
+          if (blogData[i].id.toLowerCase() === hash[2].toLowerCase()) {
+            articleInfo = blogData[i];
+            break;
+          }
+        }
+
+        // 如果文章不存在或被隐藏，跳转到 404
+        if (!articleInfo || articleInfo.visible === false) {
+          window.location.hash = '404';
+          return;
+        }
+
+        // 文章可见，加载内容
+        loadArticleContent(hash[2]);
+      },
+      error: function() {
+        window.location.hash = '404';
+      }
+    });
+
+  }
+  else window.location.hash = '404';
+
+  function loadArticleContent(articleId) {
+    $.ajax({
+      type: 'get',
+      dataType: 'text',
+      url:'data/articles/' + articleId + '.md',
+      success: function(data){
+
+        // 加载新版 KaTeX 0.16.9
+        function loadKaTeX(callback) {
+          if (!document.getElementById('katex-css')) {
+            var link = document.createElement('link');
+            link.id = 'katex-css';
+            link.rel = 'stylesheet';
+            link.href = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css';
+            document.head.appendChild(link);
+          }
+          if (typeof katex !== 'undefined' && katex.renderToString) {
+            callback();
+            return;
+          }
+          var script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js';
+          script.onload = callback;
+          document.head.appendChild(script);
+        }
+
+        loadKaTeX(function() {
+        // 先渲染公式，再用 editormd 解析其余 Markdown
+        // $$...$$ → 块级公式 (displayMode: true)
+        data = data.replace(/\n?\$\$\n?([\s\S]*?)\n?\$\$\n?/g, function(m, content) {
+          var formula = content.replace(/\n/g, ' ').trim();
+          try {
+            return '\n<div class="latex-block">' + katex.renderToString(formula, {displayMode: true, throwOnError: false}) + '</div>\n';
+          } catch(e) { return '<pre><code>' + formula + '</code></pre>'; }
+        });
+        // $...$ → 行内公式 (displayMode: false)
+        data = data.replace(/\$([^$\n]+)\$/g, function(m, formula) {
+          try {
+            return '<span class="latex-inline">' + katex.renderToString(formula, {throwOnError: false}) + '</span>';
+          } catch(e) { return '<code>' + formula + '</code>'; }
+        });
+
+        var testView = editormd.markdownToHTML("articleContent", {
+          markdown   : data,
+          htmlDecode : 'div',
+          tex        : false  // 公式已渲染，不让 editormd 再处理
+        });
+
+        // 自动将视频URL转换为嵌入播放器
+        (function embedVideoLinks() {
+          var $content = $('#articleContent');
+
+          // 第一轮：处理已自动链接的 <a> 标签
+          $content.find('a[href]').each(function() {
+            var $a = $(this);
+            var href = $a.attr('href');
+            var embedHtml = getVideoEmbed(href);
+            if (embedHtml) {
+              var $parent = $a.parent();
+              if ($parent.is('p') && $parent.contents().length === 1 && $parent.children().length === 1) {
+                $parent.replaceWith(embedHtml);
+              } else {
+                $a.replaceWith(embedHtml);
+              }
+            }
+          });
+
+          // 第二轮：兜底处理未被自动链接的纯文本URL
+          $content.find('p').each(function() {
+            var $p = $(this);
+            if ($p.find('iframe').length) return;
+            var html = $p.html();
+            if (!html) return;
+            var newHtml = html.replace(
+              /(?:https?:\/\/)?(?:www\.)?(?:bilibili\.com\/video\/(BV[a-zA-Z0-9]+)|b23\.tv\/([a-zA-Z0-9]+)|douyin\.com\/video\/(\d+))/g,
+              function(match, bvid, b23id, douyinVid) {
+                if (bvid || b23id) {
+                  var id = bvid || b23id;
+                  return '<div class="embed-responsive embed-responsive-16by9"><iframe src="//player.bilibili.com/player.html?bvid=' + id + '&danmaku=1&high_quality=1&autoplay=0&no_related=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width: 100%; aspect-ratio: 16 / 9;"></iframe></div>';
+                }
+                if (douyinVid) {
+                  return '<div style="width: 100%; max-width: 576px; margin: 0 auto;"><div style="aspect-ratio: 9 / 16;"><iframe src="https://open.douyin.com/player/video?vid=' + douyinVid + '&autoplay=0" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe></div></div>';
+                }
+                return match;
+              }
+            );
+            if (newHtml !== html) {
+              $p.replaceWith(newHtml);
+            }
+          });
+
+          function getVideoEmbed(href) {
+            // Bilibili
+            var m = href.match(/bilibili\.com\/video\/(BV[a-zA-Z0-9]+)/) || href.match(/b23\.tv\/([a-zA-Z0-9]+)/);
+            if (m) {
+              return '<div class="embed-responsive embed-responsive-16by9">' +
+                '<iframe src="//player.bilibili.com/player.html?bvid=' + m[1] +
+                '&danmaku=1&high_quality=1&autoplay=0&no_related=1" ' +
+                'scrolling="no" border="0" frameborder="no" framespacing="0" ' +
+                'allowfullscreen="true" style="width: 100%; aspect-ratio: 16 / 9;"></iframe></div>';
+            }
+            // Douyin: https://www.douyin.com/video/数字ID
+            var dm = href.match(/douyin\.com\/video\/(\d+)/);
+            if (dm) {
+              return '<div style="width: 100%; max-width: 576px; margin: 0 auto;">' +
+                '<div style="aspect-ratio: 9 / 16;">' +
+                '<iframe src="https://open.douyin.com/player/video?vid=' + dm[1] + '&autoplay=0" ' +
+                'style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>' +
+                '</div></div>';
+            }
+            return null;
+          }
+        })();
+
+        // 如果文章中有视频，暂停背景音乐
+        if ($('#articleContent iframe[src*="player.bilibili.com"], #articleContent iframe[src*="open.douyin.com"]').length) {
+          var bgm = document.getElementById('myBGM');
+          if (bgm) { bgm.pause(); }
+        }
+
+        $('#articleContent a[href^="http"]').each(function() {
+          $(this).attr('target', '_blank');
+        });
+
+        // 为代码块添加复制按钮
+        $('#articleContent pre.prettyprint').each(function() {
+          var $pre = $(this);
+          var $btn = $('<button class="code-copy-btn">复制</button>');
+          $pre.css('position', 'relative').append($btn);
+          $btn.on('click', function() {
+            var text = $pre.find('ol.linenums li').map(function() {
+              return $(this).text().replace(/\n$/, '');
+            }).get().join('\n');
+            if (!text) text = $pre.text().trim();
+            navigator.clipboard.writeText(text).then(function() {
+              $btn.addClass('copied').text('已复制!');
+              setTimeout(function() { $btn.removeClass('copied').text('复制'); }, 2000);
+            });
+          });
+        });
+
+        try{
+          setArticleInfo(articles, articleId);
+        }
+        catch(err){
+          $.getJSON('data/blog.json',{},function(data){
+            articles = data;
+            setArticleInfo(articles, articleId);
+          });
+        }
+
+        Waline.init({
+          el: '#vcomments',
+          serverURL: 'https://comment.19051915.xyz',
+          path: articleId,
+          pageview: true,
+          reaction: [
+            "/images/reactions/like.svg",
+            "/images/reactions/laugh.svg",
+            "/images/reactions/surprise.svg"
+          ],
+          dark: true,
+          lang: 'zh-CN',
+          placeholder: '给我的文章加点评论吧~'
+        });
+
+        $('.article').removeClass('hidden');
+
+        }); // end loadKaTeX callback
+
+      },
+      error: function () {
+        window.location.hash='404';
+      }
+    });
+  }
+
+  function setArticleInfo(articles,articleId) {
+
+	  let prevId,nextId;
+
+	  $.each(articles,function(i,item){
+		 if(item.id==articleId) {
+
+			$('.myDate').text(articles[i].date);
+				$('.articleTitle').text(articles[i].topic);
+			$('.myCategory').html('<a href="#blog/category/'+item.category+'">'+articles[i].category+'</a>');
+
+			for(var tag of item.tags) {
+			   $('.myTags').append('<a href="#blog/tag/'+tag+'" class="myTag">'+tag+'</a>');
+			}
+
+			if(i>0){
+			   prevId = articles[i-1].id.toLowerCase();
+			   $('.prevNext').append('<p>Prev: <a href="#blog/article/' + prevId + '">' + articles[i-1].topic + '</a></p>');
+			}
+			if(i<articles.length-1) {
+			   nextId = articles[i+1].id.toLowerCase();
+			   $('.prevNext').append('<p>Next: <a href="#blog/article/' + nextId + '">' + articles[i+1].topic + '</a></p>');
+			}
+
+			return false;
+		 }
+	  });
+  }
+
+})
+
+</script>

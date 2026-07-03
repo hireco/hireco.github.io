@@ -1,0 +1,85 @@
+<script class="directAccess" src="../directAccess.js"></script>
+
+<div class="page-title">
+  <div><span class="glyphicon glyphicon-th-list"></span> 日志分类</div>
+</div>
+
+<div class="blog hidden"></div>
+<div class="categories">
+  <ul></ul>
+</div>
+<div class="noEntryFound">
+  <span class="glyphicon glyphicon-info-sign"></span>
+  <span>No entry exists with this category<span>
+</div>
+
+<script>
+
+$(function(){
+  
+  let hash = window.location.hash.split('/');
+  
+  if(hash[2]) {
+  
+	  try {
+		 articleListWithCategory(articles,decodeURI(hash[2]));
+	  }
+	  catch(err){
+	  
+		 $.getJSON('data/blog.json',{},function(data){
+	  
+		 articles = data; //global variable definition
+		  
+		 articleListWithCategory(articles,decodeURI(hash[2]));
+		 
+	   });
+	   
+	  }
+   
+   }else {
+      try {
+		 categoryList(articles);
+	  }
+	  catch(err){
+	     $.getJSON('data/blog.json',{},function(data){
+		    articles = data; //global variable definition
+		    categoryList(articles);
+		 });
+	  }
+   }
+   
+   function articleListWithCategory(data,category) {
+   
+   $('.page-title div').html('<span class="glyphicon glyphicon-th-list"></span> 分类 <span class="path-sep">&gt;</span> ' + category);
+   
+      $.each(data, function(i,item){
+			 
+			 if(item.category==category) {
+		
+				$('.blog').append('<div><h4><a href="#blog/article/' + item.id.toLowerCase() + '">'+item.topic+'</a> <small><i>'+item.date+'</i></small></h4><p>'+item.abstract+'</p></div>');
+			 }
+	  });
+	  
+	  if(!$('.blog div').length) $('.noEntryFound').show();
+	  else $('.blog').removeClass('hidden');
+   }
+   
+   function categoryList(data) {
+
+	  var categoryCount = {};
+
+	  $.each(data, function(i,item){
+	     var cat = item.category;
+	     categoryCount[cat] = (categoryCount[cat] || 0) + 1;
+	  });
+
+	  for(var category in categoryCount) {
+	      $('.categories ul').append('<li><a href="#blog/category/'+category+'">'+category+' ('+categoryCount[category]+')</a></li>');
+	  }
+
+	  $('.categories').show();
+
+   }
+})
+
+</script>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<title>Reco的小站为您分享</title>
+	<meta name="keywords" content="Reco,物含妙理,有趣的,美丽的,科学的,物理爱好者" />
+	<meta name="description" content="世界上凡是有趣的、美丽的和科学的事，都值得分享！" />
+	<meta property="og:title" content="Reco的小站为您分享">
+	<meta property="og:description" content="世界上凡是有趣的、美丽的和科学的事，都值得分享！">
+	<meta property="og:image" content="https://19051915.xyz/images/wxshare.jpg">
+	<meta property="og:url" content="https://19051915.xyz">
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="Reco的小站">
+	<meta itemprop="name" content="Reco's personal website">
+	<meta itemprop="description" content="Reco's personal website">
+	<meta itemprop="image" content="https://19051915.xyz/images/wxshare.jpg">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="alternate icon" class="js-site-favicon" type="image/png" href="images/skin/favicon.png">
+
+	<script src="config.js"></script>
+	<script src="cdn-libs.js"></script>
+	<script>cdnCSS();</script>
+	<!--[if lt IE 9]><script>cdnIE8();</script><![endif]-->
+	<link href="style.css?t=1234" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container-fluid" id="header">
+		<div class="navbar-header">
+		  <button type="button" class="navbar-toggle collapsed">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+		  <span class="glyphicon glyphicon-search mobile-search-icon"></span>
+		  <span class="nav-arrows">
+			<span class="glyphicon glyphicon-chevron-left nav-back"></span>
+			<span class="glyphicon glyphicon-chevron-right nav-forward"></span>
+		  </span>
+		  <span class="navbar-brand"> Reco</span>
+		</div>
+		<div class="mobile-search-dropdown">
+		  <input type="search" class="form-control" placeholder="搜索关键词" id="mobile-search-input" autocomplete="off">
+		</div>
+		<div class="page-header hidden-xs">
+			<h1 class="pull-left">
+			  <a href="#home">
+				<span class="logo">Reco</span>
+				<sup><span class="badge">α</span></sup>
+				<small>Beautiful & Interesting</small>
+			  </a>
+			</h1>
+			<div class="pull-right">
+			  <div class="searchForm">
+			     <input type="search" class="form-control hidden" placeholder="搜索关键词" id="search-input" name="search" autocomplete="off">
+			     <span class="glyphicon glyphicon-search"></span>
+			  </div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<p class="player"></p>
+	</div>
+	<div class="container-fluid" id="body">
+	  <div class="row">
+		 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+		   <div class="sidePanel">
+			 <div class="mainNav hidden-xs" id="navigation">
+			  <ul class="nav nav-pills nav-stacked">
+				  <li role="presentation"><a href="#home"><span class="glyphicon glyphicon-home"></span> 首  页</a></li>
+				  <li role="presentation"><a href="#blog"><span class="glyphicon glyphicon-list-alt"></span> 日  志</a></li>
+				  <li role="presentation"><a href="#album"><span class="glyphicon glyphicon-picture"></span> 相  册</a></li>
+				  <li role="presentation"><a href="#download"><span class="glyphicon glyphicon-download-alt"></span> 下  载</a></li>
+				  <li role="presentation"><a href="#coolsites"><span class="glyphicon glyphicon-globe"></span> 酷  站</a></li>
+				  <li role="presentation"><a href="#about"><span class="glyphicon glyphicon-user"></span> 关  于</a></li>
+				  <li role="presentation"><a href="#contact"><span class="glyphicon glyphicon-envelope"></span> 联  系</a></li>
+			  </ul>
+			 </div>
+			 <div class="infoBar hidden-xs">
+			   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+			   <div class="info-row">
+			     <span class="info-label"><span class="glyphicon glyphicon-stats"></span> Visitors:</span>
+			     <span class="info-value"><span id="busuanzi_container_site_uv"><span id="busuanzi_value_site_uv"></span></span></span>
+			   </div>
+			   <div class="info-row">
+			     <span class="info-label"><span class="myIcon"></span> WeChat:</span>
+			     <span class="info-value">veriCore</span>
+			   </div>
+			 </div>
+			</div>
+		 </div>
+		 <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+		   <div class="mainPanel">
+			   <div class="mainContent">
+
+			   </div>
+		   </div>
+		 </div>
+	  </div>
+	</div>
+
+	<script>cdnJS();</script>
+
+<script>
+
+function randInt(m,n) {
+  return Math.floor(Math.random()*(m-n+1)+n);
+}
+
+$(function(){
+
+   function fixMenu() {
+      $('body').append('<div class="mask"></div>');
+
+	  $('.mainNav').removeClass('hidden-xs');
+	  $('.sidePanel').addClass('fixed');
+
+	  $('.mask').one('click',freeMenu);
+   }
+
+   function freeMenu() {
+      $('.mainNav').addClass('hidden-xs');
+	  $('.sidePanel').removeClass('fixed');
+
+      $('.mask').unbind('click');
+	  $('.mask').remove();
+   }
+
+   function loadPage() {
+
+	   $('.mainContent').addClass('loading').empty();
+
+	   let hash = window.location.hash;
+	   hash = hash?hash:'home';
+
+	   hash = hash.replace('#','').split('/');
+
+		   $('.nav li').removeClass('active');
+		   $('.nav a[href="#'+hash[0]+'"]').parent().addClass('active');
+	   freeMenu();
+
+	   let page = hash[0];
+
+	   // 特殊处理：blog子页面（#blog/category, #blog/tag, #blog/archive）
+	   if (hash.length > 1 && hash[0] === 'blog' && ['category','tag','archive'].indexOf(hash[1]) >= 0) {
+		   page = hash[1];
+	   }
+	   // 特殊处理：blog页码（如 #blog/2）加载blog.html
+	   else if (hash.length > 1 && hash[0] === 'blog' && /^\d+$/.test(hash[1])) {
+		   page = 'blog';
+	   }
+	   // 特殊处理：archive年份（如 #year/2016）加载year.html
+	   else if (hash.length > 1 && hash[0] === 'year' && /^\d{4}$/.test(hash[1])) {
+		   page = 'year';
+	   }
+	   // view视图（如 #view/id）加载view.html
+	   else if (hash.length > 1 && hash[0] === 'view') {
+		   page = 'view';
+	   }
+	   else if (hash.length > 1) {
+		   page = hash[1];
+	   }
+
+	   // 裸旧路由不再支持，直接404
+	   if (hash.length === 1 && ["tag","category","archive","search"].indexOf(page) >= 0) page = "404";
+	   let pages = ['404','home','project','blog','article','album','photo','about','tag','category','archive','search','contact','year','view','coolsites','download'];
+
+	   if($.inArray( page, pages ) <= 0)  page = '404';
+
+	   $.get( 'pages/' + page + '.html',function(data){
+	      let pageHtml = $(data).not('.directAccess');
+		  $('.mainContent').html(pageHtml).removeClass('loading');
+	   });
+   }
+
+   loadPage();
+
+   $.get('pages/audio.html', function(data) { $('.player').html(data); });
+
+   window.onhashchange = function () {
+	   loadPage();
+   }
+
+   $('.navbar-toggle').click(function(){
+
+	  $('.mask').length ? freeMenu() : fixMenu();
+
+   });
+
+
+	   // 前进后退导航
+	   var _navStack = [window.location.hash || "#home"];
+	   var _navIdx = 0;
+
+	   function _updateNavArrows() {
+	     $(".nav-back").toggleClass("disabled", _navIdx <= 0);
+	     $(".nav-forward").toggleClass("disabled", _navIdx >= _navStack.length - 1);
+	   }
+
+	   $(".nav-back").click(function() {
+	     if (_navIdx > 0) { _navIdx--; window.location.hash = _navStack[_navIdx]; }
+	   });
+
+	   $(".nav-forward").click(function() {
+	     if (_navIdx < _navStack.length - 1) { _navIdx++; window.location.hash = _navStack[_navIdx]; }
+	   });
+
+	   // 在hash变化前记录（实际记录在 loadPage 中更可靠）
+	   var _origOnHashChange = window.onhashchange;
+	   window.onhashchange = function() {
+	     var newHash = window.location.hash || "#home";
+	     if (_navStack[_navIdx] !== newHash) {
+	       _navIdx++; _navStack = _navStack.slice(0, _navIdx);
+	       _navStack.push(newHash);
+	     }
+	     _updateNavArrows();
+	     if (_origOnHashChange) _origOnHashChange();
+	   };
+
+	   _updateNavArrows();
+   // Desktop search toggle
+   $('.searchForm .glyphicon-search').click(function(){
+     $('.searchForm .form-control,.searchForm .glyphicon-search').toggleClass('hidden');
+   });
+
+   // Mobile search toggle
+   $('.mobile-search-icon').click(function(){
+     $('.mobile-search-dropdown').toggle();
+     if ($('.mobile-search-dropdown').is(':visible')) {
+       freeMenu();
+       $('body').append('<div class="mask mobile-search-mask"></div>');
+       $('#mobile-search-input').focus();
+       $('.mobile-search-mask').one('click', function(){
+         $('.mobile-search-dropdown').hide();
+         $(this).remove();
+       });
+     } else {
+       $('.mobile-search-mask').remove();
+     }
+   });
+
+   // Search submit (both desktop and mobile)
+   $('.searchForm .form-control, #mobile-search-input').bind('blur keydown', function(event){
+     if(event.type=='blur' || event.which==13) {
+       var query = $(this).val();
+       if(!query) {
+         if ($(this).is('#mobile-search-input')) {
+           $('.mobile-search-dropdown').hide();
+           $('.mobile-search-mask').remove();
+         } else {
+           $('.searchForm .form-control,.searchForm .glyphicon-search').toggleClass('hidden');
+         }
+       } else {
+         window.location.hash='#blog/search/'+query;
+         $(this).val('');
+         $('.mobile-search-dropdown').hide();
+         $('.mobile-search-mask').remove();
+       }
+     }
+   });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>404 - 页面不存在</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0f061b url('/images/skin/404.jpg') no-repeat center center;
+            background-size: cover;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #fff;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 6, 27, 0.55);
+        }
+        .container {
+            position: relative;
+            text-align: center;
+            padding: 40px;
+        }
+        .code {
+            font-size: 120px;
+            font-weight: 900;
+            letter-spacing: 8px;
+            line-height: 1;
+            text-shadow: 0 0 40px rgba(136, 136, 255, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .message {
+            font-size: 22px;
+            margin-top: 20px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        .home-link {
+            display: inline-block;
+            margin-top: 36px;
+            padding: 12px 40px;
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 30px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        .home-link:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: #fff;
+        }
+        .countdown {
+            margin-top: 20px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="code">404</div>
+        <div class="message">页面不存在</div>
+        <a href="/index.html" class="home-link">返回主页</a>
+        <div class="countdown"><span id="sec">5</span> 秒后自动返回主页</div>
+    </div>
+    <script>
+        var seconds = 5;
+        var el = document.getElementById('sec');
+        var timer = setInterval(function(){
+            seconds--;
+            el.textContent = seconds;
+            if(seconds <= 0){
+                clearInterval(timer);
+                window.location.replace('/index.html');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

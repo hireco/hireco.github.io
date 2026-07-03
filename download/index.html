@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>文件下载中心</title>
+    <link rel="icon" type="image/png" href="../images/skin/favicon.png">
+    <script src="../config.js"></script>
+    <script>
+    (function(){var p=(typeof config!=='undefined'&&config.cdnProvider)||'jsdelivr';var u={jsdelivr:'https://cdn.jsdelivr.net/npm/remixicon@4/fonts/remixicon.css',cdnjs:'',unpkg:'https://unpkg.com/remixicon@4/fonts/remixicon.css'};var url=u[p]||u['jsdelivr'];if(url)document.write('<link href="'+url+'" rel="stylesheet">');})();
+    </script>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<nav class="top-nav">
+    <a href="../index.html" class="nav-item" title="返回主页">
+        <i class="ri-home-4-line"></i> <span>主页</span>
+    </a>
+    <a href="javascript:void(0)" class="nav-item" onclick="showDonate()" title="打赏">
+        <i class="ri-hand-heart-line"></i> <span>打赏</span>
+    </a>
+    <a href="javascript:void(0)" class="nav-item" id="logout-btn" onclick="logout()" title="退出" style="display:none;">
+        <i class="ri-logout-box-r-line"></i> <span>退出</span>
+    </a>
+</nav>
+
+<!-- 动态背景粒子 -->
+<div class="particles"></div>
+
+<!-- 打赏弹窗 -->
+<div id="donate-modal" class="float-modal">
+    <div class="donate-card">
+        <button class="modal-close" onclick="closeDonate()">×</button>
+        <div class="donate-title">
+            <i class="ri-hand-heart-line"></i> 打赏支持
+        </div>
+        <img src="images/donateMe.png" alt="微信赞赏" width="200" height="200" class="donate-qrcode">
+        <p class="donate-hint">感谢您的支持</p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- 登录区 -->
+    <div id="login-box" class="glass-card" style="display:none;">
+        <div class="login-section">
+            <div class="decoration-ring"></div>
+            <div class="lock-icon">
+                <i class="ri-lock-password-line"></i>
+            </div>
+            <h2 class="login-title">文件下载中心</h2>
+            <p class="login-subtitle">输入访问密码解锁内容</p>
+
+            <div class="input-wrapper">
+                <input type="password" id="pwd-input" placeholder="请输入访问密码" autocomplete="new-password">
+            </div>
+
+            <button class="submit-btn" onclick="checkPassword()">
+                <i class="ri-shield-check-line"></i>
+                <span>解锁进入</span>
+            </button>
+
+            <div id="error-msg" class="error-msg">
+                <i class="ri-error-warning-line"></i> 密码错误，请重试
+            </div>
+
+            <div class="divider">
+                <span>扫码获取密码</span>
+            </div>
+
+            <div class="wechat-section">
+                <div class="wechat-card">
+                    <img src="images/erweima.jpg" alt="微信公众号二维码">
+                    <p class="wechat-hint">关注后发送 <strong>"下载密码"</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div id="main-content" class="glass-card main-section">
+        <div class="main-header">
+            <h1><i class="ri-download-cloud-2-line"></i> 文件下载中心</h1>
+            <p>所有资源均可免费下载</p>
+        </div>
+        <div class="main-content">
+            <div class="breadcrumb">
+                <i class="ri-folder-line"></i>
+                <span id="breadcrumb-text">当前位置: /</span>
+            </div>
+            <ul id="file-list" class="file-list">
+                <li class="loading"><i class="ri-loader-4-line"></i><br>正在加载...</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="../config.js"></script>
+<script src="js/main.js"></script>
+<script>
+    // 页面加载时检查登录状态
+    initAuth();
+</script>
+
+</body>
+</html>
