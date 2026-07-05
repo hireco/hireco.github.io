@@ -1,268 +1,278 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-	<title>Reco的小站为您分享</title>
-	<meta name="keywords" content="Reco,物含妙理,有趣的,美丽的,科学的,物理爱好者" />
-	<meta name="description" content="世界上凡是有趣的、美丽的和科学的事，都值得分享！" />
-	<meta property="og:title" content="Reco的小站为您分享">
-	<meta property="og:description" content="世界上凡是有趣的、美丽的和科学的事，都值得分享！">
-	<meta property="og:image" content="https://19051915.xyz/images/wxshare.jpg">
-	<meta property="og:url" content="https://19051915.xyz">
-	<meta property="og:type" content="website">
-	<meta property="og:site_name" content="Reco的小站">
-	<meta itemprop="name" content="Reco's personal website">
-	<meta itemprop="description" content="Reco's personal website">
-	<meta itemprop="image" content="https://19051915.xyz/images/wxshare.jpg">
-	<meta name="twitter:card" content="summary_large_image">
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>个人主页 · 姓名</title>
+    <!-- 简洁的字体与图标库 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* 全局重置与基础 */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-	<link rel="alternate icon" class="js-site-favicon" type="image/png" href="images/skin/favicon.png">
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #faf9f8;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            line-height: 1.6;
+            color: #1e1e2a;
+        }
 
-	<script src="config.js"></script>
-	<script src="cdn-libs.js"></script>
-	<script>cdnCSS();</script>
-	<!--[if lt IE 9]><script>cdnIE8();</script><![endif]-->
-	<link href="style.css?t=1234" rel="stylesheet">
+        /* 主卡片 — 干净、柔和、留白 */
+        .card {
+            max-width: 720px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 2.5rem;
+            padding: 3.5rem 3rem;
+            box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.08),
+                0 8px 24px -8px rgba(0, 0, 0, 0.04);
+            transition: box-shadow 0.25s ease;
+            text-align: center;
+        }
+
+        @media (max-width: 500px) {
+            .card {
+                padding: 2.5rem 1.5rem;
+                border-radius: 1.8rem;
+            }
+        }
+
+        /* 头像 — 柔和圆润，留白呼吸 */
+        .avatar {
+            width: 128px;
+            height: 128px;
+            border-radius: 50%;
+            background: #ececec;
+            margin: 0 auto 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.25rem;
+            font-weight: 400;
+            color: #4a4a5a;
+            background: #f0eeed;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.02);
+            user-select: none;
+            transition: transform 0.2s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.01);
+        }
+
+        /* 姓名 — 干净有重量 */
+        .name {
+            font-size: 2.4rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #14141e;
+            margin-bottom: 0.3rem;
+            line-height: 1.2;
+        }
+
+        @media (max-width: 500px) {
+            .name {
+                font-size: 2rem;
+            }
+        }
+
+        /* 头衔 / 子标题 */
+        .title {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #6b6b7a;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.01em;
+        }
+
+        /* 描述文字 — 温和、易读 */
+        .bio {
+            font-size: 1.05rem;
+            color: #3a3a48;
+            max-width: 480px;
+            margin: 0 auto 2.25rem;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .bio a {
+            color: #1e1e2a;
+            text-decoration: none;
+            border-bottom: 1.5px dotted #c5c5d0;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+
+        .bio a:hover {
+            border-bottom-color: #1e1e2a;
+            color: #000;
+        }
+
+        /* 社交链接 — 干净、均匀 */
+        .socials {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem 1.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.55rem 1.1rem;
+            border-radius: 60px;
+            background: #f4f3f1;
+            color: #1e1e2a;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 450;
+            transition: background 0.2s ease, transform 0.15s ease,
+                box-shadow 0.2s ease;
+            letter-spacing: -0.01em;
+            border: 1px solid transparent;
+        }
+
+        .social-link i {
+            font-size: 1.15rem;
+            width: 1.2em;
+            text-align: center;
+            color: #3b3b4a;
+            transition: color 0.2s ease;
+        }
+
+        .social-link:hover {
+            background: #eae8e5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.03);
+            border-color: #d8d6d2;
+        }
+
+        .social-link:hover i {
+            color: #14141e;
+        }
+
+        /* 极简 footer */
+        .footer-note {
+            margin-top: 2.8rem;
+            font-size: 0.85rem;
+            color: #9a9aa8;
+            letter-spacing: 0.02em;
+            border-top: 1px solid #f0eeec;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-note span {
+            opacity: 0.7;
+        }
+
+        .footer-note a {
+            color: #6b6b7a;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .footer-note a:hover {
+            color: #1e1e2a;
+            border-bottom-color: #c0c0cc;
+        }
+
+        /* 可选 — 很轻的装饰分隔 */
+        .divider {
+            width: 48px;
+            height: 2px;
+            background: #dedcd8;
+            margin: 0.25rem auto 1.75rem;
+            border-radius: 4px;
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 480px) {
+            .social-link {
+                padding: 0.45rem 0.9rem;
+                font-size: 0.9rem;
+            }
+            .social-link i {
+                font-size: 1rem;
+            }
+            .bio {
+                font-size: 0.98rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
-	<div class="container-fluid" id="header">
-		<div class="navbar-header">
-		  <button type="button" class="navbar-toggle collapsed">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		  </button>
-		  <span class="glyphicon glyphicon-search mobile-search-icon"></span>
-		  <span class="nav-arrows">
-			<span class="glyphicon glyphicon-chevron-left nav-back"></span>
-			<span class="glyphicon glyphicon-chevron-right nav-forward"></span>
-		  </span>
-		  <span class="navbar-brand"> Reco</span>
-		</div>
-		<div class="mobile-search-dropdown">
-		  <input type="search" class="form-control" placeholder="搜索关键词" id="mobile-search-input" autocomplete="off">
-		</div>
-		<div class="page-header hidden-xs">
-			<h1 class="pull-left">
-			  <a href="#home">
-				<span class="logo">Reco</span>
-				<sup><span class="badge">α</span></sup>
-				<small>Beautiful & Interesting</small>
-			  </a>
-			</h1>
-			<div class="pull-right">
-			  <div class="searchForm">
-			     <input type="search" class="form-control hidden" placeholder="搜索关键词" id="search-input" name="search" autocomplete="off">
-			     <span class="glyphicon glyphicon-search"></span>
-			  </div>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-		<p class="player"></p>
-	</div>
-	<div class="container-fluid" id="body">
-	  <div class="row">
-		 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-		   <div class="sidePanel">
-			 <div class="mainNav hidden-xs" id="navigation">
-			  <ul class="nav nav-pills nav-stacked">
-				  <li role="presentation"><a href="#home"><span class="glyphicon glyphicon-home"></span> 首  页</a></li>
-				  <li role="presentation"><a href="#blog"><span class="glyphicon glyphicon-list-alt"></span> 日  志</a></li>
-				  <li role="presentation"><a href="#album"><span class="glyphicon glyphicon-picture"></span> 相  册</a></li>
-				  <li role="presentation"><a href="#download"><span class="glyphicon glyphicon-download-alt"></span> 下  载</a></li>
-				  <li role="presentation"><a href="#coolsites"><span class="glyphicon glyphicon-globe"></span> 酷  站</a></li>
-				  <li role="presentation"><a href="#about"><span class="glyphicon glyphicon-user"></span> 关  于</a></li>
-				  <li role="presentation"><a href="#contact"><span class="glyphicon glyphicon-envelope"></span> 联  系</a></li>
-			  </ul>
-			 </div>
-			 <div class="infoBar hidden-xs">
-			   <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-			   <div class="info-row">
-			     <span class="info-label"><span class="glyphicon glyphicon-stats"></span> Visitors:</span>
-			     <span class="info-value"><span id="busuanzi_container_site_uv"><span id="busuanzi_value_site_uv"></span></span></span>
-			   </div>
-			   <div class="info-row">
-			     <span class="info-label"><span class="myIcon"></span> WeChat:</span>
-			     <span class="info-value">veriCore</span>
-			   </div>
-			 </div>
-			</div>
-		 </div>
-		 <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-		   <div class="mainPanel">
-			   <div class="mainContent">
 
-			   </div>
-		   </div>
-		 </div>
-	  </div>
-	</div>
+    <div class="card">
 
-	<script>cdnJS();</script>
+        <!-- 头像 — 可换成图片或首字母 -->
+        <div class="avatar" aria-label="头像">
+            <i class="fas fa-user" style="font-size: 3.2rem; opacity: 0.6;"></i>
+        </div>
 
-<script>
+        <!-- 姓名 -->
+        <h1 class="name">张三</h1>
 
-function randInt(m,n) {
-  return Math.floor(Math.random()*(m-n+1)+n);
-}
+        <!-- 头衔 / 简短身份 -->
+        <p class="title">设计师 · 创作者</p>
 
-$(function(){
+        <!-- 装饰细线 (可选) -->
+        <div class="divider"></div>
 
-   function fixMenu() {
-      $('body').append('<div class="mask"></div>');
+        <!-- 个人简介 — 温暖、真实 -->
+        <div class="bio">
+            用设计 &amp; 代码搭建美好体验。
+            目前专注 <a href="#">交互设计</a> 与 <a href="#">前端开发</a>。
+            相信简单、有温度的作品。
+        </div>
 
-	  $('.mainNav').removeClass('hidden-xs');
-	  $('.sidePanel').addClass('fixed');
+        <!-- 社交链接 — 可增删改 -->
+        <div class="socials">
+            <a href="#" class="social-link" aria-label="GitHub">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="#" class="social-link" aria-label="Twitter / X">
+                <i class="fab fa-twitter"></i> Twitter
+            </a>
+            <a href="#" class="social-link" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i> LinkedIn
+            </a>
+            <a href="#" class="social-link" aria-label="Email">
+                <i class="fas fa-envelope"></i> 邮件
+            </a>
+            <a href="#" class="social-link" aria-label="个人作品集">
+                <i class="fas fa-briefcase"></i> 作品集
+            </a>
+        </div>
 
-	  $('.mask').one('click',freeMenu);
-   }
+        <!-- 底部小信息 — 干净、克制 -->
+        <div class="footer-note">
+            <span>✦ 基于 GitHub Pages</span>
+            <a href="#">· 订阅</a>
+            <a href="#">· 简历</a>
+        </div>
 
-   function freeMenu() {
-      $('.mainNav').addClass('hidden-xs');
-	  $('.sidePanel').removeClass('fixed');
-
-      $('.mask').unbind('click');
-	  $('.mask').remove();
-   }
-
-   function loadPage() {
-
-	   $('.mainContent').addClass('loading').empty();
-
-	   let hash = window.location.hash;
-	   hash = hash?hash:'home';
-
-	   hash = hash.replace('#','').split('/');
-
-		   $('.nav li').removeClass('active');
-		   $('.nav a[href="#'+hash[0]+'"]').parent().addClass('active');
-	   freeMenu();
-
-	   let page = hash[0];
-
-	   // 特殊处理：blog子页面（#blog/category, #blog/tag, #blog/archive）
-	   if (hash.length > 1 && hash[0] === 'blog' && ['category','tag','archive'].indexOf(hash[1]) >= 0) {
-		   page = hash[1];
-	   }
-	   // 特殊处理：blog页码（如 #blog/2）加载blog.html
-	   else if (hash.length > 1 && hash[0] === 'blog' && /^\d+$/.test(hash[1])) {
-		   page = 'blog';
-	   }
-	   // 特殊处理：archive年份（如 #year/2016）加载year.html
-	   else if (hash.length > 1 && hash[0] === 'year' && /^\d{4}$/.test(hash[1])) {
-		   page = 'year';
-	   }
-	   // view视图（如 #view/id）加载view.html
-	   else if (hash.length > 1 && hash[0] === 'view') {
-		   page = 'view';
-	   }
-	   else if (hash.length > 1) {
-		   page = hash[1];
-	   }
-
-	   // 裸旧路由不再支持，直接404
-	   if (hash.length === 1 && ["tag","category","archive","search"].indexOf(page) >= 0) page = "404";
-	   let pages = ['404','home','project','blog','article','album','photo','about','tag','category','archive','search','contact','year','view','coolsites','download'];
-
-	   if($.inArray( page, pages ) <= 0)  page = '404';
-
-	   $.get( 'pages/' + page + '.html',function(data){
-	      let pageHtml = $(data).not('.directAccess');
-		  $('.mainContent').html(pageHtml).removeClass('loading');
-	   });
-   }
-
-   loadPage();
-
-   $.get('pages/audio.html', function(data) { $('.player').html(data); });
-
-   window.onhashchange = function () {
-	   loadPage();
-   }
-
-   $('.navbar-toggle').click(function(){
-
-	  $('.mask').length ? freeMenu() : fixMenu();
-
-   });
-
-
-	   // 前进后退导航
-	   var _navStack = [window.location.hash || "#home"];
-	   var _navIdx = 0;
-
-	   function _updateNavArrows() {
-	     $(".nav-back").toggleClass("disabled", _navIdx <= 0);
-	     $(".nav-forward").toggleClass("disabled", _navIdx >= _navStack.length - 1);
-	   }
-
-	   $(".nav-back").click(function() {
-	     if (_navIdx > 0) { _navIdx--; window.location.hash = _navStack[_navIdx]; }
-	   });
-
-	   $(".nav-forward").click(function() {
-	     if (_navIdx < _navStack.length - 1) { _navIdx++; window.location.hash = _navStack[_navIdx]; }
-	   });
-
-	   // 在hash变化前记录（实际记录在 loadPage 中更可靠）
-	   var _origOnHashChange = window.onhashchange;
-	   window.onhashchange = function() {
-	     var newHash = window.location.hash || "#home";
-	     if (_navStack[_navIdx] !== newHash) {
-	       _navIdx++; _navStack = _navStack.slice(0, _navIdx);
-	       _navStack.push(newHash);
-	     }
-	     _updateNavArrows();
-	     if (_origOnHashChange) _origOnHashChange();
-	   };
-
-	   _updateNavArrows();
-   // Desktop search toggle
-   $('.searchForm .glyphicon-search').click(function(){
-     $('.searchForm .form-control,.searchForm .glyphicon-search').toggleClass('hidden');
-   });
-
-   // Mobile search toggle
-   $('.mobile-search-icon').click(function(){
-     $('.mobile-search-dropdown').toggle();
-     if ($('.mobile-search-dropdown').is(':visible')) {
-       freeMenu();
-       $('body').append('<div class="mask mobile-search-mask"></div>');
-       $('#mobile-search-input').focus();
-       $('.mobile-search-mask').one('click', function(){
-         $('.mobile-search-dropdown').hide();
-         $(this).remove();
-       });
-     } else {
-       $('.mobile-search-mask').remove();
-     }
-   });
-
-   // Search submit (both desktop and mobile)
-   $('.searchForm .form-control, #mobile-search-input').bind('blur keydown', function(event){
-     if(event.type=='blur' || event.which==13) {
-       var query = $(this).val();
-       if(!query) {
-         if ($(this).is('#mobile-search-input')) {
-           $('.mobile-search-dropdown').hide();
-           $('.mobile-search-mask').remove();
-         } else {
-           $('.searchForm .form-control,.searchForm .glyphicon-search').toggleClass('hidden');
-         }
-       } else {
-         window.location.hash='#blog/search/'+query;
-         $(this).val('');
-         $('.mobile-search-dropdown').hide();
-         $('.mobile-search-mask').remove();
-       }
-     }
-   });
-});
-</script>
+    </div>
 
 </body>
 </html>
